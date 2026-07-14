@@ -1,5 +1,5 @@
 ![](https://github.com/kAPEXLab/logos_and_headers/blob/main/Email-Apex%20Lab-KPIT-APRIL2026.jpg)
-
+![](https://kapexlab.github.io/logos_and_headers/Email-Apex%20Lab-KPIT-APRIL2026.jpg)
 # Automotive Communication Networks
 
 ## Module 1: Introduction
