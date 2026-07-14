@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Automotive Communication Protocols</title>
+<style>
+body{
+    font-family: Arial, sans-serif;
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+    line-height:1.6;
+    background:#f5f5f5;
+}
+header{
+    background:#0b2545;
+    color:white;
+    padding:30px;
+    text-align:center;
+    border-radius:10px;
+}
+section{
+    background:white;
+    margin:20px 0;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+h1,h2{
+    color:#0b2545;
+}
+ul{
+    margin-left:20px;
+}
+table{
+    border-collapse:collapse;
+    width:100%;
+}
+table,th,td{
+    border:1px solid #ccc;
+}
+th,td{
+    padding:10px;
+}
+nav{
+    position:sticky;
+    top:0;
+    background:white;
+    padding:10px;
+    border-bottom:1px solid #ddd;
+}
+nav a{
+    margin-right:15px;
+    text-decoration:none;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>Automotive Communication Protocols</h1>
+<p>Introduction to Automotive Protocols</p>
+<p>Module 1 – Foundations of In‑Vehicle Networking</p>
+</header>
+
+<nav>
+#ivn
+#history
+#can
+#lin
+#flexray
+#most
+#ethernetEthernet</a>
+#osiOSI</a>
+</nav>
+
+<section>
+<h2>Module Coverage</h2>
+<ul>
+<li>Why In‑Vehicle Networks</li>
+<li>History & Evolution</li>
+<li>Major Bus Systems</li>
+<li>Topology & Architecture</li>
+<li>OSI Reference Model</li>
+<li>Safety & Security</li>
+</ul>
+</section>
+
+<section id="ivn">
+<h2>What Is an In‑Vehicle Network?</h2>
+<p>An IVN connects Electronic Control Units (ECUs) through shared communication buses.</p>
+<ul>
+<li>Reduces wiring complexity</li>
+<li>Allows data reuse</li>
+<li>Improves coordination among ECUs</li>
+<li>Lowers weight and cost</li>
+</ul>
+</section>
+
+<section id="history">
+<h2>History & Evolution</h2>
+<ul>
+<li>1980s – CAN introduced</li>
+<li>1990s – LIN and MOST emerge</li>
+<li>2000s – FlexRay and OBD growth</li>
+<li>2010s – CAN FD and Automotive Ethernet</li>
+<li>2020s – Zonal Architecture and TSN</li>
+</ul>
+</section>
+
+<section>
+<h2>E/E Architecture Evolution</h2>
+<h3>Distributed Architecture</h3>
+<p>Independent ECUs connected with extensive wiring.</p>
+
+<h3>Domain-Based Architecture</h3>
+<p>ECUs grouped under domain controllers.</p>
+
+<h3>Zonal Architecture</h3>
+<p>Zone controllers connected to central high-performance computing units.</p>
+</section>
+
+<section>
+<h2>Automotive Network Classification</h2>
+
+<table>
+<tr>
+<th>Class</th>
+<th>Rate</th>
+<th>Application</th>
+</tr>
+<tr>
+<td>A</td>
+<td>&lt;10 kbit/s</td>
+<td>Comfort & Body</td>
+</tr>
+<tr>
+<td>B</td>
+<td>10–125 kbit/s</td>
+<td>Body Electronics</td>
+</tr>
+<tr>
+<td>C</td>
+<td>125 kbit/s–1 Mbit/s</td>
+<td>Powertrain</td>
+</tr>
+<tr>
+<td>D</td>
+<td>&gt;1 Mbit/s</td>
+<td>Safety & Multimedia</td>
+</tr>
+</table>
+</section>
+
+<section id="can">
+<h2>CAN – Controller Area Network</h2>
+<ul>
+<li>Classic CAN: 1 Mbit/s</li>
+<li>CAN FD: 2–5 Mbit/s</li>
+<li>Multi-master bus</li>
+<li>Priority-based arbitration</li>
+<li>Robust and fault tolerant</li>
+</ul>
+</section>
+
+<section id="lin">
+<h2>LIN – Local Interconnect Network</h2>
+<ul>
+<li>20 kbit/s</li>
+<li>Single-wire network</li>
+<li>One master, multiple slaves</li>
+<li>Low-cost body electronics</li>
+</ul>
+</section>
+
+<section id="flexray">
+<h2>FlexRay</h2>
+<ul>
+<li>10 Mbit/s per channel</li>
+<li>Dual-channel redundancy</li>
+<li>TDMA-based deterministic communication</li>
+<li>Safety-critical systems</li>
+</ul>
+</section>
+
+<section id="most">
+<h2>MOST</h2>
+<ul>
+<li>25–150 Mbit/s</li>
+<li>Ring topology</li>
+<li>Audio and multimedia transport</li>
+</ul>
+</section>
+
+<section id="ethernet">
+<h2>Automotive Ethernet</h2>
+<ul>
+<li>100 Mbps to 10 Gbps</li>
+<li>Single Pair Ethernet</li>
+<li>TSN support</li>
+<li>ADAS and zonal backbone</li>
+<li>OTA updates and DoIP</li>
+</ul>
+</section>
+
+<section>
+<h2>Network Topologies</h2>
+<ul>
+<li>Bus</li>
+<li>Star</li>
+<li>Ring</li>
+<li>Mesh</li>
+</ul>
+</section>
+
+<section>
+<h2>Central Gateway</h2>
+<p>Translates, routes and secures communication between multiple vehicle networks.</p>
+</section>
+
+<section>
+<h2>Functional Safety – ISO 26262</h2>
+<ul>
+<li>QM</li>
+<li>ASIL A</li>
+<li>ASIL B</li>
+<li>ASIL C</li>
+<li>ASIL D</li>
+</ul>
+<p>Focuses on determinism, redundancy and safe communication.</p>
+</section>
+
+<section>
+<h2>Cybersecurity</h2>
+<ul>
+<li>AUTOSAR SecOC</li>
+<li>Intrusion Detection</li>
+<li>Secure Boot</li>
+<li>Gateway Segmentation</li>
+<li>ISO/SAE 21434</li>
+</ul>
+</section>
+
+<section id="osi">
+<h2>OSI Reference Model</h2>
+<ol>
+<li>Physical</li>
+<li>Data Link</li>
+<li>Network</li>
+<li>Transport</li>
+<li>Session</li>
+<li>Presentation</li>
+<li>Application</li>
+</ol>
+</section>
+
+<section>
+<h2>Key Takeaways</h2>
+<ul>
+<li>Networks replaced extensive wiring.</li>
+<li>No single protocol fits every use case.</li>
+<li>CAN remains the dominant automotive network.</li>
+<li>Ethernet is becoming the future backbone.</li>
+<li>Safety and cybersecurity are essential.</li>
+</ul>
+</section>
+
+</body>
+</html>
