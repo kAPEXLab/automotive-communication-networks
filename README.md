@@ -15,3 +15,4 @@
 
 * Page - [CAN Bus Explained - A Simple Intro [2026]](https://www.csselectronics.com/pages/can-bus-simple-intro-tutorial)
 * Video Playlist - [CAN Bus Protocol eLearning Course](https://youtube.com/playlist?list=PLhfN97bEw6xyZJbKBoTg0D0rB-AzWASxu&si=vzG_G8PIJy3ciOwZ)
+* PAge - [CAN FD Protocol Tutorial](https://kvaser.com/can-fd-protocol-tutorial/)
