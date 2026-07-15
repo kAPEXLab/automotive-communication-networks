@@ -10,3 +10,8 @@
 * Blog - [How In-Vehicle Networking Bolsters Connectivity on the Road](https://www.keysight.com/blogs/en/tech/educ/2024/in-vehicle-networking)
 * Blog - [In-Vehicle Networking – Architecture, Protocols, and Applications](https://piembsystech.com/in-vehicle-networking-architecture-protocols/)
 * Document - [AUTOMOTIVE PRIMER: IN-VEHICLE NETWORKING](https://download.tek.com/document/48W-61611_Automotive_Primer_In-Vehicle_Networking.pdf)
+
+## Module 2: Controller Area Network
+
+* Page - [CAN Bus Explained - A Simple Intro [2026]](https://www.csselectronics.com/pages/can-bus-simple-intro-tutorial)
+* Video Playlist - [CAN Bus Protocol eLearning Course](https://youtube.com/playlist?list=PLhfN97bEw6xyZJbKBoTg0D0rB-AzWASxu&si=vzG_G8PIJy3ciOwZ)
