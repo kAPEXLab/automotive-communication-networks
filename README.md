@@ -19,5 +19,5 @@
 
 # Learn by Experimentation
 
-* [CAN with STM32 and PCAN](https://kapexlab.github.io/automotive-communication-networks/experimentsCAN)
+* [CAN with STM32 and PCAN](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsCAN)
 
