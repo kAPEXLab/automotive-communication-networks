@@ -15,4 +15,15 @@
 
 * Page - [CAN Bus Explained - A Simple Intro [2026]](https://www.csselectronics.com/pages/can-bus-simple-intro-tutorial)
 * Video Playlist - [CAN Bus Protocol eLearning Course](https://youtube.com/playlist?list=PLhfN97bEw6xyZJbKBoTg0D0rB-AzWASxu&si=vzG_G8PIJy3ciOwZ)
-* PAge - [CAN FD Protocol Tutorial](https://kvaser.com/can-fd-protocol-tutorial/)
+* Page - [CAN FD Protocol Tutorial](https://kvaser.com/can-fd-protocol-tutorial/)
+
+# Learn by Experimentation
+
+## CAN with STM32 and PCAN
+*  [Basic Configuration and Framework Setup](https://kapexlab.github.io/automotive-communication-networks/experiments/can_01.md)
+*  [Arbitration, Bus Load](https://kapexlab.github.io/automotive-communication-networks/experiments/can_02.md)
+*  [Hardware Filtering](https://kapexlab.github.io/automotive-communication-networks/experiments/can_03.md)
+*  [Fault Injection](https://kapexlab.github.io/automotive-communication-networks/experiments/can_04.md)
+*  [Signal Encoding](https://kapexlab.github.io/automotive-communication-networks/experiments/can_05.md)
+*  [Alive Counter](https://kapexlab.github.io/automotive-communication-networks/experiments/can_06.md)
+*  [Diagnostics and DTC](https://kapexlab.github.io/automotive-communication-networks/experiments/can_07.md)
