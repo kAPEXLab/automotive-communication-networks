@@ -19,11 +19,5 @@
 
 # Learn by Experimentation
 
-## CAN with STM32 and PCAN
-*  [Basic Configuration and Framework Setup](https://kapexlab.github.io/automotive-communication-networks/experiments/can_01.md)
-*  [Arbitration, Bus Load](https://kapexlab.github.io/automotive-communication-networks/experiments/can_02.md)
-*  [Hardware Filtering](https://kapexlab.github.io/automotive-communication-networks/experiments/can_03.md)
-*  [Fault Injection](https://kapexlab.github.io/automotive-communication-networks/experiments/can_04.md)
-*  [Signal Encoding](https://kapexlab.github.io/automotive-communication-networks/experiments/can_05.md)
-*  [Alive Counter](https://kapexlab.github.io/automotive-communication-networks/experiments/can_06.md)
-*  [Diagnostics and DTC](https://kapexlab.github.io/automotive-communication-networks/experiments/can_07.md)
+* [CAN with STM32 and PCAN](https://kapexlab.github.io/automotive-communication-networks/experimentsCAN)
+
