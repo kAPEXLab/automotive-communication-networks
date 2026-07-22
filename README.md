@@ -13,6 +13,12 @@
 
 ## Module 2: Controller Area Network
 
+* Presentation - [1_Foundations](https://kapexlab.github.io/automotive-communication-networks/ppts/Controller-Area-Network_1_Foundations.html)
+* Presentation - [2_Physical_Layer](https://kapexlab.github.io/automotive-communication-networks/ppts/Controller-Area-Network_2_Physical_Layer.html)
+* Presentation - [3_Frames_and_Types](https://kapexlab.github.io/automotive-communication-networks/ppts/Controller-Area-Network_3_Frames_and_Types.html)
+* Presentation - [4_Protocol_Mechanisms](https://kapexlab.github.io/automotive-communication-networks/ppts/Controller-Area-Network_4_Protocol_Mechanisms.html)
+* Presentation - [5_Errors_Higher, Layers_and_Evolution](https://kapexlab.github.io/automotive-communication-networks/ppts/Controller-Area-Network_5_Errors_HigherLayers_and_Evolution.html)
+* Presentation - [6_Applications_Practice](https://kapexlab.github.io/automotive-communication-networks/ppts/Controller-Area-Network_6_Applications_Practice.html)
 * Page - [CAN Bus Explained - A Simple Intro [2026]](https://www.csselectronics.com/pages/can-bus-simple-intro-tutorial)
 * Video Playlist - [CAN Bus Protocol eLearning Course](https://youtube.com/playlist?list=PLhfN97bEw6xyZJbKBoTg0D0rB-AzWASxu&si=vzG_G8PIJy3ciOwZ)
 * Page - [CAN FD Protocol Tutorial](https://kvaser.com/can-fd-protocol-tutorial/)
