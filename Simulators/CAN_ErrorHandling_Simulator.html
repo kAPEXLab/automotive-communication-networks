@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, 1.0">
+<title>CAN Error Handling Simulator</title>
+<style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 20px;
+    background: #f4f7fb;
+}
+
+h1 {
+    text-align: center;
+    color: #1f4e79;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+label,
+input,
+button,
+select,
+textarea {
+    font-size: 14px;
+}
+
+input,
+select,
+textarea {
+    padding: 6px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #bbb;
+}
+
+textarea {
+    width: 100%;
+    min-height: 60px;
+    height: 60px;
+    resize: vertical;
+}
+
+button {
+    padding: 8px 15px;
+    margin: 5px 5px 5px 0;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background: #1f4e79;
+    color: white;
+}
+
+button:hover {
+    background: #0f3556;
+}
+
+.bitRow {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 6px;
+    flex-wrap: nowrap;
+}
+
+.rowLabel {
+    width: 120px;
+    min-width: 120px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.bit {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    margin: 1px;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+    font-size: 10px;
+    overflow: hidden;
+}
+
+.bit.current {
+    border: 3px solid blue !important;
+}
+
+.bit.errorPoint {
+    transform: scale(1.18);
+    box-shadow: 0 0 0 2px #e74c3c;
+}
+
+.fieldBit {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    margin: 1px;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+    background: #f5f5f5;
+    color: black;
+    font-size: 9px;
+    overflow: hidden;
+}
+
+.bit.one {
+    background: #8f8f8f;
+    color: white;
+}
+
+.bit.zero {
+    background: #d2d1d1;
+    color: black;
+}
+
+.bit.error {
+    background: #e74c3c;
+    color: white;
+    font-weight: bold;
+}
+
+.bit.ok {
+    background: #2ecc71;
+    color: white;
+    font-weight: bold;
+}
+
+.explanation {
+    background: #ffffe0;
+    padding: 10px;
+    border-left: 5px solid orange;
+    margin-top: 10px;
+}
+
+.code {
+    font-family: monospace;
+    background: #f7f7f7;
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.inlineNote {
+    font-size: 12px;
+    color: #4b5563;
+    margin: 6px 0 10px;
+}
+
+.legend {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 8px 0 12px;
+    font-size: 12px;
+}
+
+.legendItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    background: #f8f8f8;
+}
+
+.legendSwatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(110px, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.statBox {
+    background: #f8fafc;
+    border: 1px solid #d5dce5;
+    border-radius: 6px;
+    padding: 8px;
+    text-align: center;
+}
+
+.statBox .label {
+    display: block;
+    font-size: 12px;
+    color: #4b5563;
+}
+
+.statBox .value {
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 4px;
+}
+</style>
+</head>
+<body>
+
+<h1>CAN Error Handling Simulator</h1>
+
+<div class="card">
+    <h3>Configuration</h3>
+
+    <label>Frame Type
+        <select id="frameType">
+            <option value="data">Data Frame</option>
+            <option value="remote">Remote Frame</option>
+        </select>
+    </label>
+
+    <label>Frame Bits
+        <textarea id="frameBits">1101111111111110</textarea>
+    </label>
+
+    <label>Error Type
+        <select id="errorType">
+            <option value="bit">Bit Error</option>
+            <option value="stuff">Stuff Error</option>
+            <option value="crc">CRC Error</option>
+            <option value="ack">ACK Error</option>
+        </select>
+    </label>
+
+    <button onclick="simulateError()">Simulate</button>
+    <button onclick="loadPreset('bit')">Bit Error Preset</button>
+    <button onclick="loadPreset('stuff')">Stuff Error Preset</button>
+    <button onclick="loadPreset('crc')">CRC Error Preset</button>
+    <button onclick="loadPreset('ack')">ACK Error Preset</button>
+</div>
+
+<div class="card">
+    <h3>Animation Controls</h3>
+    <button onclick="startAnimation()">Play</button>
+    <button onclick="pauseAnimation()">Pause</button>
+    <button onclick="prevBit()">Previous Bit</button>
+    <button onclick="nextBit()">Next Bit</button>
+
+    <div id="animation"></div>
+</div>
+
+<div class="card">
+    <h3>Result</h3>
+
+    <div class="legend">
+        <span class="legendItem"><span class="legendSwatch" style="background:#2ecc71"></span>Green = Normal</span>
+        <span class="legendItem"><span class="legendSwatch" style="background:#e74c3c"></span>Red = Error</span>
+        <span class="legendItem"><span class="legendSwatch" style="background:#1f4e79"></span>Blue = Current bit</span>
+    </div>
+
+    <div class="code">What the simulator shows: a CAN frame is read bit by bit and the selected error type is checked at each step.</div>
+    <div id="result"></div>
+</div>
+
+<script>
+let animationData = null;
+let currentBit = 0;
+let playTimer = null;
+
+const presets = {
+    bit: {
+        frameType: 'data',
+        frameBits: '1101111111111110',
+        errorType: 'bit'
+    },
+    stuff: {
+        frameType: 'data',
+        frameBits: '1111111111111111',
+        errorType: 'stuff'
+    },
+    crc: {
+        frameType: 'data',
+        frameBits: '1101110101010011',
+        errorType: 'crc'
+    },
+    ack: {
+        frameType: 'data',
+        frameBits: '1101111111111110',
+        errorType: 'ack'
+    }
+};
+
+function loadPreset(name) {
+    const preset = presets[name];
+    if (!preset) return;
+
+    document.getElementById('frameType').value = preset.frameType;
+    document.getElementById('frameBits').value = preset.frameBits;
+    document.getElementById('errorType').value = preset.errorType;
+
+    simulateError();
+}
+
+function validateBits(bits) {
+    return bits.replace(/[^01]/g, '').trim();
+}
+
+function buildFieldLabels(totalBits) {
+    let sectionNames = ['SOF', 'ID', 'CTRL', 'DATA', 'CRC', 'ACK', 'EOF'];
+    let labels = [];
+
+    for (let i = 0; i < totalBits; i++) {
+        labels.push(sectionNames[i % sectionNames.length]);
+    }
+
+    return labels;
+}
+
+function buildErrorScenario(frameBits, errorType) {
+    let bits = frameBits.split('');
+    let steps = [];
+    let fieldLabels = buildFieldLabels(bits.length);
+
+    for (let i = 0; i < bits.length; i++) {
+        let isError = false;
+        let result = 'ok';
+        let message = '';
+
+        if (errorType === 'bit') {
+            if (i === 4) {
+                isError = true;
+                result = 'error';
+                message = 'A bit-level error is detected because the transmitted bit differs from the expected value.';
+            } else {
+                message = 'Bit is received as expected, so no fault is signaled.';
+            }
+        }
+
+        if (errorType === 'stuff') {
+            if (i >= 5 && bits[i] === '1' && bits[i - 1] === '1' && bits[i - 2] === '1' && bits[i - 3] === '1' && bits[i - 4] === '1') {
+                isError = true;
+                result = 'error';
+                message = 'A stuffing error is detected because more than five consecutive dominant bits are seen.';
+            } else {
+                message = 'Stuffing rule is still valid for this transmitted bit.';
+            }
+        }
+
+        if (errorType === 'crc') {
+            if (i === bits.length - 1) {
+                isError = true;
+                result = 'error';
+                message = 'CRC check fails, so the receiver rejects the frame.';
+            } else {
+                message = 'Payload bits are being validated before CRC comparison.';
+            }
+        }
+
+        if (errorType === 'ack') {
+            if (i === 2) {
+                isError = true;
+                result = 'error';
+                message = 'ACK slot does not detect a valid ACK from another node, so the transmitter reports an ACK error.';
+            } else {
+                message = 'The bus is still receiving the frame normally.';
+            }
+        }
+
+        steps.push({
+            bit: i,
+            value: bits[i],
+            result,
+            isError,
+            message,
+            field: fieldLabels[i]
+        });
+    }
+
+    return steps;
+}
+
+function simulateError() {
+    pauseAnimation();
+
+    let frameType = document.getElementById('frameType').value;
+    let frameBits = validateBits(document.getElementById('frameBits').value);
+    let errorType = document.getElementById('errorType').value;
+
+    if (!frameBits) {
+        document.getElementById('result').innerHTML = '<b>Please enter a valid bit sequence using only 0 and 1.</b>';
+        document.getElementById('animation').innerHTML = '';
+        return;
+    }
+
+    let scenario = buildErrorScenario(frameBits, errorType);
+    let errorCount = scenario.filter(step => step.isError).length;
+
+    let errorStep = scenario.find(step => step.isError);
+    let summaryText = errorCount > 0
+        ? `${errorType.toUpperCase()} detected at bit ${errorStep.bit} in the ${errorStep.field} section.`
+        : `${errorType.toUpperCase()} not detected in this frame.`;
+
+    let diagnosisText = errorCount > 0
+        ? `The frame was rejected because the ${errorType.toUpperCase()} error was found at bit ${errorStep.bit}. This usually means the receiver notices an abnormal bus condition or a mismatch in the expected CAN frame contents.`
+        : `No ${errorType.toUpperCase()} condition was detected in this frame. The bits are behaving consistently with the selected error scenario.`;
+
+    document.getElementById('result').innerHTML = `
+        <div class="code">Frame Type: ${frameType.toUpperCase()}</div>
+        <div class="code">Error Type: ${errorType.toUpperCase()}</div>
+        <div class="code">Summary: ${summaryText}</div>
+        <div class="code">Diagnosis: ${diagnosisText}</div>
+
+        <div class="statsGrid">
+            <div class="statBox"><span class="label">Total bits</span><span class="value">${scenario.length}</span></div>
+            <div class="statBox"><span class="label">Normal</span><span class="value">${scenario.length - errorCount}</span></div>
+            <div class="statBox"><span class="label">Error</span><span class="value">${errorCount}</span></div>
+        </div>
+    `;
+
+    animationData = {
+        frameBits,
+        scenario,
+        errorType,
+        frameType
+    };
+
+    currentBit = 0;
+    renderAnimation(0);
+}
+
+function renderAnimation(bitIndex) {
+    if (!animationData) return;
+
+    let safeIndex = Math.min(Math.max(bitIndex, 0), animationData.scenario.length - 1);
+    let step = animationData.scenario[safeIndex];
+
+    let html = `<h3>Current Bit : ${safeIndex}</h3>`;
+
+    html += `
+<div class="bitRow">
+<span class="rowLabel">Bit #</span>
+`;
+
+    for (let i = 0; i < animationData.scenario.length; i++) {
+        let cls = 'bit';
+        if (i === safeIndex) cls += ' current';
+        html += `<span class="${cls}">${i}</span>`;
+    }
+
+    html += `</div>`;
+
+    html += `
+<div class="bitRow">
+<span class="rowLabel">Frame Bits</span>
+`;
+
+    for (let i = 0; i < animationData.scenario.length; i++) {
+        let cls = animationData.scenario[i].result === 'error' ? 'bit error' : 'bit ok';
+
+        if (i === safeIndex) {
+            cls += ' current';
+        }
+
+        if (i === safeIndex && step.isError) {
+            cls += ' errorPoint';
+        }
+
+        html += `<span class="${cls}">${animationData.scenario[i].value}</span>`;
+    }
+
+    html += `</div>`;
+
+    html += `
+<div class="inlineNote">This row shows only the raw 0/1 bit sequence. The next row maps those positions to CAN frame sections.</div>
+`;
+
+    html += `
+<div class="bitRow">
+<span class="rowLabel">Field</span>
+`;
+
+    for (let i = 0; i < animationData.scenario.length; i++) {
+        let cls = 'fieldBit';
+        if (i === safeIndex) cls += ' current';
+        html += `<span class="${cls}">${animationData.scenario[i].field}</span>`;
+    }
+
+    html += `</div>`;
+
+    html += `
+<div class="explanation">
+    <b>Bit ${safeIndex}</b><br>
+    Field: ${step.field}<br>
+    Status: <span style="font-weight:bold;">${step.result.toUpperCase()}</span><br>
+    ${step.message}
+</div>
+`;
+
+    document.getElementById('animation').innerHTML = html;
+}
+
+function nextBit() {
+    if (!animationData) return;
+    currentBit++;
+    if (currentBit >= animationData.scenario.length) {
+        currentBit = animationData.scenario.length - 1;
+    }
+    renderAnimation(currentBit);
+}
+
+function prevBit() {
+    if (!animationData) return;
+    currentBit--;
+    if (currentBit < 0) currentBit = 0;
+    renderAnimation(currentBit);
+}
+
+function startAnimation() {
+    if (!animationData) return;
+    pauseAnimation();
+
+    playTimer = setInterval(() => {
+        renderAnimation(currentBit);
+        currentBit++;
+
+        if (currentBit >= animationData.scenario.length) {
+            pauseAnimation();
+            currentBit = animationData.scenario.length - 1;
+        }
+    }, 800);
+}
+
+function pauseAnimation() {
+    clearInterval(playTimer);
+}
+
+simulateError();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>CAN Arbitration Simulator</title>
+
+<style>
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    margin:20px;
+    background:#f4f7fb;
+}
+
+.bitRow{
+    display:flex;
+    align-items:center;
+    gap:2px;
+    margin-bottom:6px;
+    flex-wrap:nowrap;
+}
+
+h1{
+    text-align:center;
+    color:#1f4e79;
+}
+
+.card{
+    background:white;
+    border-radius:10px;
+    padding:15px;
+    margin-bottom:15px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.15);
+}
+
+.node{
+    border:1px solid #ccc;
+    border-radius:8px;
+    padding:10px;
+    margin-top:10px;
+}
+
+input,select{
+    padding:4px;
+    margin:5px;
+}
+
+button{
+    padding:8px 15px;
+    margin:5px;
+    cursor:pointer;
+    border:none;
+    border-radius:5px;
+    background:#1f4e79;
+    color:white;
+}
+
+button:hover{
+    background:#0f3556;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+
+th,td{
+    border:1px solid #bbb;
+    padding:5px;
+    text-align:center;
+}
+
+.winner{
+    color:#27ae60;
+    font-weight:bold;
+}
+
+.explanation{
+    background:#ffffe0;
+    padding:10px;
+    border-left:5px solid orange;
+    margin-top:10px;
+}
+
+.rowLabel{
+    width:120px;
+    min-width:120px;
+    font-weight:bold;
+    display:inline-block;
+}
+
+.fieldBit{
+    display:inline-block;
+    width:26px;
+    height:26px;
+    line-height:26px;
+    text-align:center;
+    margin:1px;
+    border-radius:4px;
+    border:1px solid #aaa;
+    background:#f5f5f5;
+    color:black;
+    font-size:9px;
+    overflow:hidden;
+}
+
+.bit{
+    display:inline-block;
+    width:26px;
+    height:26px;
+    line-height:26px;
+    text-align:center;
+    margin:1px;
+    border-radius:4px;
+    border:1px solid #aaa;
+}
+
+.dom{
+    background:#d2d1d1;
+    color:white;
+}
+
+.rec{
+    background:#dcdcdc;
+    color:black;
+}
+
+.current{
+    border:3px solid blue !important;
+}
+
+.winnerBit{
+    background:#2ecc71 !important;
+    color:white !important;
+    font-weight:bold;
+}
+
+.lossBit{
+    background:#e74c3c !important;
+    color:white !important;
+    font-weight:bold;
+}
+
+.lostBit{
+    background:#e74c3c !important;
+    color:white !important;
+    font-weight:bold;
+}
+
+
+.busRow{
+    border-top:3px solid #333;
+    padding-top:10px;
+}
+
+#animation{
+    min-height:300px;
+}
+
+code{
+    word-break:break-all;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>CAN Arbitration Simulator</h1>
+
+<div class="card">
+
+<h3>Configuration</h3>
+
+<label>
+Number of Nodes
+<select id="nodeCount" onchange="updateNodes()">
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+</select>
+</label>
+
+<div id="nodes"></div>
+
+<button onclick="simulate()">Simulate</button>
+
+</div>
+
+<div class="card">
+
+<h3>Animation Controls</h3>
+
+<button onclick="startAnimation()">Play</button>
+<button onclick="pauseAnimation()">Pause</button>
+<button onclick="prevBit()">Previous Bit</button>
+<button onclick="nextBit()">Next Bit</button>
+
+<div id="animation"></div>
+
+</div>
+
+<div class="card">
+<h3>Winner</h3>
+<div id="winner"></div>
+</div>
+
+<div class="card">
+<h3>Arbitration Summary</h3>
+<div id="results"></div>
+</div>
+
+<script>
+
+let animationData=null;
+let currentBit=0;
+let playTimer=null;
+
+function createNodes()
+{
+    let html="";
+
+    for(let i=1;i<=5;i++)
+    {
+        html+=`
+        <div class="node" id="node${i}">
+
+        <h3>Node ${i}</h3>
+
+        ID (HEX)
+
+        <input id="id${i}" value="${100+i}">
+
+        Format
+
+        <select id="format${i}">
+            <option value="standard">Standard</option>
+            <option value="extended">Extended</option>
+        </select>
+
+        Type
+
+        <select id="type${i}">
+            <option value="data">Data</option>
+            <option value="remote">Remote</option>
+        </select>
+
+        </div>
+        `;
+    }
+
+    document.getElementById("nodes").innerHTML=html;
+
+    updateNodes();
+}
+
+function updateNodes()
+{
+    let count=parseInt(
+        document.getElementById("nodeCount").value
+    );
+
+    for(let i=1;i<=5;i++)
+    {
+        let node=document.getElementById("node"+i);
+
+        if(node)
+        {
+            node.style.display=
+                i<=count ? "block" : "none";
+        }
+    }
+}
+
+function bin(num,bits)
+{
+    return num.toString(2).padStart(bits,'0');
+}
+
+function buildField(id,format,type)
+{
+    let rtr=(type==="data") ? "0" : "1";
+
+    if(format==="standard")
+    {
+        let id11=id & 0x7FF;
+
+        return {
+            bits:
+                "0"+
+                bin(id11,11)+
+                rtr+
+                "00",
+
+            fields:[
+                "SOF",
+                "ID","ID","ID","ID","ID","ID",
+                "ID","ID","ID","ID","ID",
+                "RTR",
+                "IDE",
+                "r0"
+            ],
+
+            description:
+                "SOF | 11-Bit Identifier | RTR | IDE | r0"
+        };
+    }
+
+    let full=id & 0x1FFFFFFF;
+
+    let base=full>>18;
+    let ext=full & 0x3FFFF;
+
+    return{
+    bits:
+        "0"+
+        bin(base,11)+
+        "1"+
+        "1"+
+        bin(ext,18)+
+        rtr,
+
+    fields:[
+        "SOF",
+
+        "ID","ID","ID","ID","ID","ID",
+        "ID","ID","ID","ID","ID",
+
+        "SRR",
+        "IDE",
+
+        "EID","EID","EID","EID","EID",
+        "EID","EID","EID","EID","EID",
+        "EID","EID","EID","EID","EID",
+        "EID","EID","EID",
+
+        "RTR"
+    ],
+
+    description:
+        "SOF | BaseID | SRR | IDE | ExtID | RTR"
+};
+}
+
+function simulate()
+{
+    pauseAnimation();
+
+    let nodeCount=parseInt(
+        document.getElementById("nodeCount").value
+    );
+
+    let nodes=[];
+
+    for(let i=1;i<=nodeCount;i++)
+    {
+        let id=parseInt(
+            document.getElementById("id"+i).value,
+            16
+        );
+
+        let format=
+            document.getElementById("format"+i).value;
+
+        let type=
+            document.getElementById("type"+i).value;
+
+        let frame=
+            buildField(id,format,type);
+
+            nodes.push({
+            name:"Node "+i,
+            id:id,
+            format:format,
+            type:type,
+            bits:frame.bits,
+            fields:frame.fields,
+            description:frame.description,
+            active:true,
+            loseReason:"",
+            lostAtBit:-1
+        });
+    }
+
+    let table="<table>";
+    let busBits=[];
+    let events=[];
+
+    let maxBits=
+        Math.max(...nodes.map(n=>n.bits.length));
+
+    table+="<tr><th>Bit</th>";
+
+    nodes.forEach(n=>{
+        table+=`<th>${n.name}</th>`;
+    });
+
+    table+="<th>Bus</th></tr>";
+
+    let arbitrationFinished=false;
+    let winnerNode=null;
+
+    for(let bit=0;bit<maxBits;bit++)
+    {
+        let active=
+            nodes.filter(n=>n.active);
+
+        if(!arbitrationFinished)
+        {
+            let tx=[];
+
+            active.forEach(node=>{
+                tx.push(
+                    parseInt(node.bits[bit] || "1")
+                );
+            });
+
+            let bus=Math.min(...tx);
+
+            busBits.push(String(bus));
+
+            let event=
+            `<b>Bit ${bit}</b><br>`;
+
+            table+=`<tr><td>${bit}</td>`;
+
+            nodes.forEach(node=>{
+
+                let value="-";
+
+                if(node.active)
+                {
+                    value=node.bits[bit] || "1";
+
+                    if(parseInt(value)!==bus)
+                    {
+                        node.active=false;
+                        node.lostAtBit=bit;
+
+                        node.loseReason=
+                        `Lost arbitration at bit ${bit}`;
+
+                        value+=" ❌";
+
+event+=`
+<span style="color:red;font-weight:bold;">
+${node.name} LOST arbitration
+</span>
+
+<br>
+
+Transmitted : ${value.replace(" ❌","")}
+<br>
+
+Bus Value : ${bus}
+<br>
+
+Node stops transmitting and becomes receiver.
+<br>
+
+Frame remains stored in TX buffer.
+<br>
+
+Will automatically retry after EOF.
+<br><br>
+`;
+                    }
+                }
+
+                table+=`<td>${value}</td>`;
+            });
+
+            table+=`<td>${bus}</td></tr>`;
+
+            events.push(event);
+
+            active=
+                nodes.filter(n=>n.active);
+
+            if(active.length===1)
+            {
+                arbitrationFinished=true;
+
+                winnerNode=active[0];
+
+events.push(`
+<span style="color:green;font-weight:bold;">
+${winnerNode.name} WON arbitration
+</span>
+
+<br><br>
+
+All other nodes become receivers.
+
+<br>
+
+Bus now follows only the winner's frame.
+
+<br>
+
+Remaining bits on the bus are transmitted by
+${winnerNode.name}.
+`);
+            }
+        }
+        else
+        {
+            let busBit=
+                winnerNode.bits[bit] || "1";
+
+            busBits.push(busBit);
+
+            events.push(
+            `Bus follows ${winnerNode.name}`
+            );
+        }
+    }
+
+table+="</table>";
+
+    document.getElementById("results").innerHTML=
+        table;
+
+    let winner=
+        nodes.find(n=>n.active);
+
+    document.getElementById("winner").innerHTML=
+    `
+    <h2 class="winner">
+    ${winner.name}
+    </h2>
+
+    ID: 0x${winner.id.toString(16).toUpperCase()}
+    <br>
+
+    ${winner.format.toUpperCase()}
+    /
+    ${winner.type.toUpperCase()}
+    `;
+
+    animationData={
+        winner:winner.name,
+
+        nodes:nodes.map(n=>({
+        name:n.name,
+        bits:n.bits,
+        fields:n.fields,
+        format:n.format,
+        lostAtBit:n.lostAtBit
+    })),
+
+        busBits:busBits,
+        events:events
+    };
+
+    currentBit=0;
+
+    renderAnimation(0);
+}
+
+function renderAnimation(bitIndex)
+{
+    if(!animationData)
+        return;
+
+    let arbitrationEnd=-1;
+
+    animationData.nodes.forEach(node=>{
+
+        if(node.lostAtBit>=0)
+        {
+            arbitrationEnd=
+            Math.max(
+                arbitrationEnd,
+                node.lostAtBit
+            );
+        }
+    });
+
+    arbitrationEnd++;
+
+    let html=
+    `<h3>Current Bit : ${bitIndex}</h3>`;
+    html+=`
+<div class="bitRow">
+<span class="rowLabel">Bit #</span>
+`;
+
+for(let i=0;i<animationData.busBits.length;i++)
+{
+    let cls='bit';
+
+    if(i===bitIndex)
+    {
+        cls+=' current';
+    }
+
+    html+=`
+    <span class="${cls}">
+    ${i}
+    </span>
+    `;
+}
+
+html+=`</div>`;
+let refNode=
+    animationData.nodes.find(
+        node=>node.name===animationData.winner
+    ) || animationData.nodes[0];
+
+html+=`
+<div class="bitRow">
+<span class="rowLabel">Field</span>
+`;
+
+for(let i=0;i<refNode.fields.length;i++)
+{
+    let cls='bit';
+
+    if(i===bitIndex)
+    {
+        cls+=' current';
+    }
+
+    html+=`
+<span class="fieldBit">
+        ${refNode.fields[i]}
+    </span>
+    `;
+}
+
+html+=`</div>`; 
+    animationData.nodes.forEach(node=>{
+
+        html+=`
+        <div class="bitRow">
+        <span class="rowLabel">${node.name}</span>
+        `;
+
+        for(let i=0;i<node.bits.length;i++)
+        {
+            let cls=
+            node.bits[i]==='0'
+            ? 'bit dom'
+            : 'bit rec';
+
+/*
+ * Node becomes red only
+ * after the animation reachessss
+ * the arbitration loss point.
+ */
+
+if(
+   node.lostAtBit>=0 &&
+   bitIndex >= node.lostAtBit &&
+   i >= node.lostAtBit
+)
+{
+    cls='bit lostBit';
+}
+
+/*
+ * Winner becomes green only
+ * after arbitration is finished
+ * and only for remaining bits.
+ */
+
+if(
+   node.lostAtBit<0 &&
+   bitIndex >= arbitrationEnd &&
+   i >= arbitrationEnd
+)
+{
+    cls='bit winnerBit';
+}
+
+if(
+   node.lostAtBit>=0 &&
+   i===node.lostAtBit
+)
+{
+    if(bitIndex >= node.lostAtBit)
+    {
+        cls='bit lossBit';
+    }
+}
+
+
+            if(i===bitIndex)
+            {
+                cls+=' current';
+            }
+
+            html+=`
+            <span class="${cls}">
+            ${node.bits[i]}
+            </span>
+            `;
+        }
+
+        html+="</div>";
+    });
+
+    html+=`
+<div class="bitRow busRow">
+<span class="rowLabel">BUS</span>
+    `;
+
+    for(let i=0;i<animationData.busBits.length;i++)
+    {
+        let cls=
+        animationData.busBits[i]==='0'
+        ? 'bit dom'
+        : 'bit rec';
+
+        if(i===bitIndex)
+        {
+            cls+=' current';
+        }
+
+        html+=`
+        <span class="${cls}">
+        ${animationData.busBits[i]}
+        </span>
+        `;
+    }
+
+    html+="</div>";
+if(
+    animationData.events &&
+    bitIndex < animationData.events.length
+)
+{
+    html+=`
+    <div class="explanation">
+    ${animationData.events[bitIndex]}
+    </div>
+    `;
+}
+    document.getElementById("animation").innerHTML=
+        html;
+}
+
+function nextBit()
+{
+    currentBit++;
+
+    if(currentBit>=animationData.busBits.length)
+    {
+        currentBit=
+        animationData.busBits.length-1;
+    }
+
+    renderAnimation(currentBit);
+}
+
+function prevBit()
+{
+    currentBit--;
+
+    if(currentBit<0)
+    {
+        currentBit=0;
+    }
+
+    renderAnimation(currentBit);
+}
+
+function startAnimation()
+{
+    pauseAnimation();
+
+    playTimer=setInterval(()=>{
+
+        renderAnimation(currentBit);
+
+        currentBit++;
+
+        if(currentBit>=animationData.busBits.length)
+        {
+            pauseAnimation();
+
+            currentBit=
+            animationData.busBits.length-1;
+        }
+
+    },1000);
+}
+
+function pauseAnimation()
+{
+    clearInterval(playTimer);
+}
+
+createNodes();
+
+</script>
+
+</body>
+</html>

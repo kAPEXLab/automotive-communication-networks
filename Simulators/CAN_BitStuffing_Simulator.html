@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAN Bit Stuffing Simulator</title>
+<style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 20px;
+    background: #f4f7fb;
+}
+
+h1 {
+    text-align: center;
+    color: #1f4e79;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+label,
+input,
+textarea,
+button,
+select {
+    font-size: 14px;
+}
+
+input,
+textarea,
+select {
+    padding: 6px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #bbbbbb;
+}
+
+textarea {
+    width: 100%;
+    min-height: 24px;
+    height: 20px;
+    resize: vertical;
+}
+
+button {
+    padding: 8px 15px;
+    margin: 5px 5px 5px 0;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background: #1f4e79;
+    color: white;
+}
+
+button:hover {
+    background: #0f3556;
+}
+
+.bitRow {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 6px;
+    flex-wrap: nowrap;
+}
+
+.rowLabel {
+    width: 120px;
+    min-width: 120px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.bit {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    margin: 1px;
+    border-radius: 4px;
+    border: 1px solid #aaa;
+    font-size: 11px;
+}
+
+.bit.current {
+    border: 3px solid blue !important;
+}
+
+.bit.stuffedBit {
+    background: #f39c12;
+    color: white;
+    font-weight: bold;
+}
+
+.bit.original {
+    background: #dcdcdc;
+    color: black;
+}
+
+.bit.one {
+    background: #8f8f8f;
+    color: white;
+}
+
+.bit.zero {
+    background: #d2d1d1;
+    color: black;
+}
+
+.explanation {
+    background: #ffffe0;
+    padding: 10px;
+    border-left: 5px solid orange;
+    margin-top: 10px;
+}
+
+summary {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.code {
+    word-break: break-all;
+    background: #f7f7f7;
+    padding: 8px;
+    border-radius: 6px;
+}
+</style>
+</head>
+<body>
+
+<h1>CAN Bit Stuffing Simulator</h1>
+
+<div class="card">
+    <h3>Input</h3>
+    <label for="frameInput">Frame Bit Sequence</label><br>
+    <textarea id="frameInput">1101111111111110</textarea><br>
+    <button onclick="simulateStuffing()">Simulate Bit Stuffing</button>
+    <button onclick="randomizeFrame()">Generate Random Frame</button>
+</div>
+
+<div class="card">
+    <h3>Animation Controls</h3>
+    <button onclick="startAnimation()">Play</button>
+    <button onclick="pauseAnimation()">Pause</button>
+    <button onclick="prevBit()">Previous Bit</button>
+    <button onclick="nextBit()">Next Bit</button>
+
+    <div id="animation"></div>
+</div>
+
+<div class="card">
+    <h3>Result</h3>
+    <div id="result"></div>
+</div>
+
+<script>
+let animationData = null;
+let currentBit = 0;
+let playTimer = null;
+
+function randomizeFrame() {
+    let length = 20 + Math.floor(Math.random() * 20);
+    let bits = [];
+
+    for (let i = 0; i < length; i++) {
+        bits.push(Math.random() < 0.5 ? '0' : '1');
+    }
+
+    document.getElementById('frameInput').value = bits.join('');
+    simulateStuffing();
+}
+
+function validateBits(bits) {
+    return bits.replace(/[^01]/g, '').trim();
+}
+
+function stuffBits(inputBits) {
+    let original = inputBits.split('');
+    let stuffed = [];
+    let insertedPositions = [];
+    let originalToStuffed = [];
+    let bitCount = 0;
+    let insertedBits = 0;
+    let events = [];
+
+    original.forEach((bit, index) => {
+        stuffed.push(bit);
+        originalToStuffed[index] = stuffed.length - 1;
+        bitCount++;
+
+        if (bit === '1') {
+            if (bitCount === 5) {
+                stuffed.push('0');
+                insertedPositions.push(stuffed.length - 1);
+                insertedBits++;
+                events.push(`Inserted stuffing bit 0 after 5 consecutive 1s at position ${index + 1}.`);
+                bitCount = 0;
+            }
+        } else {
+            bitCount = 0;
+        }
+    });
+
+    return {
+        original: original,
+        stuffed: stuffed,
+        insertedPositions: insertedPositions,
+        originalToStuffed: originalToStuffed,
+        insertedBits: insertedBits,
+        events: events
+    };
+}
+
+function simulateStuffing() {
+    pauseAnimation();
+
+    let raw = validateBits(document.getElementById('frameInput').value);
+
+    if (!raw) {
+        document.getElementById('result').innerHTML = '<b>Please enter a valid bit sequence using only 0 and 1.</b>';
+        document.getElementById('animation').innerHTML = '';
+        return;
+    }
+
+    let result = stuffBits(raw);
+
+    let html = '<table style="width:100%;border-collapse:collapse;">';
+    html += '<tr><th>Original Bits</th><th>Stuffed Bits</th><th>Inserted Bits</th></tr>';
+    html += `<tr><td class="code">${result.original.join('')}</td><td class="code">${result.stuffed.join('')}</td><td>${result.insertedBits}</td></tr>`;
+    html += '</table>';
+
+    document.getElementById('result').innerHTML = html;
+
+    animationData = {
+        original: result.original,
+        stuffed: result.stuffed,
+        insertedPositions: result.insertedPositions,
+        originalToStuffed: result.originalToStuffed,
+        events: result.events,
+        insertedBits: result.insertedBits
+    };
+
+    currentBit = 0;
+    renderAnimation(0);
+}
+
+function renderAnimation(bitIndex) {
+    if (!animationData) return;
+
+    let safeBitIndex = Math.min(
+        Math.max(bitIndex, 0),
+        animationData.original.length - 1
+    );
+
+    let html = `<h3>Current Bit : ${safeBitIndex}</h3>`;
+
+    html += `
+<div class="bitRow">
+<span class="rowLabel">Original</span>
+`;
+
+    for (let i = 0; i < animationData.original.length; i++) {
+        let cls = animationData.original[i] === '1' ? 'bit one' : 'bit zero';
+        if (i === safeBitIndex) cls += ' current';
+        html += `<span class="${cls}">${animationData.original[i]}</span>`;
+    }
+
+    html += `</div>`;
+
+    html += `
+<div class="bitRow">
+<span class="rowLabel">Stuffed</span>
+`;
+
+    let revealLimit = Math.min(
+        animationData.originalToStuffed[safeBitIndex] + 1,
+        animationData.stuffed.length
+    );
+
+    for (let i = 0; i < revealLimit; i++) {
+        let isInserted = animationData.insertedPositions.includes(i);
+        let cls = isInserted ? 'bit stuffedBit' : 'bit original';
+
+        if (!isInserted && animationData.stuffed[i] === '1') cls = 'bit one';
+        if (!isInserted && animationData.stuffed[i] === '0') cls = 'bit zero';
+
+        if (i === animationData.originalToStuffed[safeBitIndex]) cls += ' current';
+
+        html += `<span class="${cls}">${animationData.stuffed[i]}</span>`;
+    }
+
+    for (let i = revealLimit; i < animationData.stuffed.length; i++) {
+        html += '<span class="bit" style="background:#f7f7f7; color:#f7f7f7; border-style:dashed;">.</span>';
+    }
+
+    html += `</div>`;
+
+    if (animationData.events && safeBitIndex < animationData.events.length) {
+        html += `<div class="explanation">${animationData.events[safeBitIndex]}</div>`;
+    } else {
+        html += `<div class="explanation">Bit stuffing completed. Total inserted stuffing bits: ${animationData.insertedBits}.</div>`;
+    }
+
+    document.getElementById('animation').innerHTML = html;
+}
+
+function nextBit() {
+    if (!animationData) return;
+
+    currentBit++;
+    if (currentBit >= animationData.original.length) {
+        currentBit = animationData.original.length - 1;
+    }
+    renderAnimation(currentBit);
+}
+
+function prevBit() {
+    if (!animationData) return;
+
+    currentBit--;
+    if (currentBit < 0) currentBit = 0;
+    renderAnimation(currentBit);
+}
+
+function startAnimation() {
+    if (!animationData) return;
+    pauseAnimation();
+
+    playTimer = setInterval(() => {
+        renderAnimation(currentBit);
+        currentBit++;
+
+        if (currentBit >= animationData.original.length) {
+            pauseAnimation();
+            currentBit = animationData.original.length - 1;
+        }
+    }, 800);
+}
+
+function pauseAnimation() {
+    clearInterval(playTimer);
+}
+
+simulateStuffing();
+</script>
+
+</body>
+</html>
