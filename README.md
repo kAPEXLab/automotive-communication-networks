@@ -1,7 +1,9 @@
 ![](https://kapexlab.github.io/logos_and_headers/Email-Apex%20Lab-KPIT-APRIL2026.jpg)
 # Automotive Communication Networks
 
-## Module 1: Introduction
+## 📌 Learning Material
+
+#### Module 1: Introduction
 
 * Presentation - [Automotive Communication Networks - Introduction](https://kapexlab.github.io/automotive-communication-networks/ppts/Automotive-Communication-Protocols.html)
 * Video - [Automotive Communication Protocols (Part - 1) Skill-Lync](https://youtu.be/LZQB9In4_0Y?si=-p67qE31of6IpVeb)
@@ -11,7 +13,7 @@
 * Blog - [In-Vehicle Networking – Architecture, Protocols, and Applications](https://piembsystech.com/in-vehicle-networking-architecture-protocols/)
 * Document - [AUTOMOTIVE PRIMER: IN-VEHICLE NETWORKING](https://download.tek.com/document/48W-61611_Automotive_Primer_In-Vehicle_Networking.pdf)
 
-## Module 2: Controller Area Network
+#### Module 2: Controller Area Network
 
 * Presentation - [1_Foundations](https://kapexlab.github.io/automotive-communication-networks/ppts/Controller-Area-Network_1_Foundations.html)
 * Presentation - [2_Physical_Layer](https://kapexlab.github.io/automotive-communication-networks/ppts/Controller-Area-Network_2_Physical_Layer.html)
@@ -23,7 +25,15 @@
 * Video Playlist - [CAN Bus Protocol eLearning Course](https://youtube.com/playlist?list=PLhfN97bEw6xyZJbKBoTg0D0rB-AzWASxu&si=vzG_G8PIJy3ciOwZ)
 * Page - [CAN FD Protocol Tutorial](https://kvaser.com/can-fd-protocol-tutorial/)
 
-# Learn by Experimentation
+## 📌 Guidelines for Experimentation
 
 * [CAN with STM32 and PCAN](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsCAN)
 
+## 📌 Simulators
+
+#### Controller Area Network
+
+* [Bit Stuffing](https://github.com/kAPEXLab/automotive-communication-networks/Simulators/CAN_BitStuffing_Simulator.html)
+* [Arbitration](https://github.com/kAPEXLab/automotive-communication-networks/Simulators/CAN_Arbitration_Simulator.html)
+* [Acceptance Filtering](https://github.com/kAPEXLab/automotive-communication-networks/Simulators/CAN_AcceptanceFiltering_Simulator.html)
+* [Error Handling](https://github.com/kAPEXLab/automotive-communication-networks/Simulators/CAN_ErrorHandling_Simulator.html)
