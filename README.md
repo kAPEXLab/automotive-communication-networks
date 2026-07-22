@@ -33,7 +33,7 @@
 
 #### Controller Area Network
 
-* [Bit Stuffing](https://github.com/kAPEXLab/automotive-communication-networks/Simulators/CAN_BitStuffing_Simulator.html)
-* [Arbitration](https://github.com/kAPEXLab/automotive-communication-networks/Simulators/CAN_Arbitration_Simulator.html)
-* [Acceptance Filtering](https://github.com/kAPEXLab/automotive-communication-networks/Simulators/CAN_AcceptanceFiltering_Simulator.html)
-* [Error Handling](https://github.com/kAPEXLab/automotive-communication-networks/Simulators/CAN_ErrorHandling_Simulator.html)
+* [Bit Stuffing](https://kapexlab.github.io/automotive-communication-networks/Simulators/CAN_BitStuffing_Simulator.html)
+* [Arbitration](https://kapexlab.github.io/automotive-communication-networks/Simulators/CAN_Arbitration_Simulator.html)
+* [Acceptance Filtering](https://kapexlab.github.io/automotive-communication-networks/Simulators/CAN_AcceptanceFiltering_Simulator.html)
+* [Error Handling](https://kapexlab.github.io/automotive-communication-networks/Simulators/CAN_ErrorHandling_Simulator.html)
