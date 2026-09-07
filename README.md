@@ -28,6 +28,7 @@
 #### Module 2: Local Interconnect Network
 * Page - [LIN Bus Explained - A Simple Intro](https://www.csselectronics.com/pages/lin-bus-protocol-intro-basics)
 * Video Playlist - [Webinar on LIN Protocol](https://www.youtube.com/playlist?list=PLVGVwd-cBiurIz7E4FnUcWKthI8A5XByt)
+* Presentation - [Local Interconnect Network](https://kapexlab.github.io/automotive-communication-networks/ppts/Local-Interconnect-Network.html)
 
 ## 📌 Guidelines for Experimentation
 
