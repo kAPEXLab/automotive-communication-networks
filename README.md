@@ -25,6 +25,10 @@
 * Video Playlist - [CAN Bus Protocol eLearning Course](https://youtube.com/playlist?list=PLhfN97bEw6xyZJbKBoTg0D0rB-AzWASxu&si=vzG_G8PIJy3ciOwZ)
 * Page - [CAN FD Protocol Tutorial](https://kvaser.com/can-fd-protocol-tutorial/)
 
+#### Module 2: 
+* Page - [LIN Bus Explained - A Simple Intro](https://www.csselectronics.com/pages/lin-bus-protocol-intro-basics)
+* Video Playlist - [Webinar on LIN Protocol](https://www.youtube.com/playlist?list=PLVGVwd-cBiurIz7E4FnUcWKthI8A5XByt)
+
 ## 📌 Guidelines for Experimentation
 
 * [CAN with STM32 and PCAN](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsCAN)
