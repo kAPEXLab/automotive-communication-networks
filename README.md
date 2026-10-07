@@ -25,10 +25,22 @@
 * Video Playlist - [CAN Bus Protocol eLearning Course](https://youtube.com/playlist?list=PLhfN97bEw6xyZJbKBoTg0D0rB-AzWASxu&si=vzG_G8PIJy3ciOwZ)
 * Page - [CAN FD Protocol Tutorial](https://kvaser.com/can-fd-protocol-tutorial/)
 
-#### Module 2: Local Interconnect Network
+#### Module 3: Local Interconnect Network
 * Page - [LIN Bus Explained - A Simple Intro](https://www.csselectronics.com/pages/lin-bus-protocol-intro-basics)
 * Video Playlist - [Webinar on LIN Protocol](https://www.youtube.com/playlist?list=PLVGVwd-cBiurIz7E4FnUcWKthI8A5XByt)
 * Presentation - [Local Interconnect Network](https://kapexlab.github.io/automotive-communication-networks/ppts/Local-Interconnect-Network.html)
+
+#### Module 4: Ethernet Fundamentals
+
+* Presentation - [Local Area Network](https://kapexlab.github.io/automotive-communication-networks/ppts/Local-Area-Network.html)
+* Blog - [Introduction to LANs](https://networklessons.com/switching/introduction-to-lans)
+* Presentation - [Ethernet 1 Basics and Physical Link](https://kapexlab.github.io/automotive-communication-networks/ppts/Ethernet-Fundamentals_1_Ethernet-Basics-and-the-Physical-Link.html)
+* Presentation - [Ethernet 2 Topologies, Addressing and Switching](https://kapexlab.github.io/automotive-communication-networks/ppts/Ethernet-Fundamentals_2_Topologies_-Addressing-and-Switching.html)
+* Presentation - [Ethernet 3 Ethernet Frame](https://kapexlab.github.io/automotive-communication-networks/ppts/Ethernet-Fundamentals_3_Ethernet-Frame.html)
+* Presentation - [Ethernet 4 VLAN](https://kapexlab.github.io/automotive-communication-networks/ppts/Ethernet-Fundamentals_4_VLANs.html)
+* PDF - [Ethernet Basics](https://www.mouser.com/pdfdocs/Ethernet_Basics_rev2_en.pdf?srsltid=AU7gw4VGtPhIFN2c4qGNGWloNwZRyQX9tMbXN-Bx9S6QPW8gBd7qxxqy)
+* Blog - [Introduction to Ethernet](https://networklessons.com/switching/introduction-to-ethernet)
+  
 
 ## 📌 Guidelines for Experimentation
 
