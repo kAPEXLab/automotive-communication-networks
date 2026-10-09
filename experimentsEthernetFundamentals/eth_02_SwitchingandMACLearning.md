@@ -1,83 +1,82 @@
-# Exercise 2 - Switching and MAC Learning
+# 📘 Exercise 2 - Switching and MAC Learning
 
-## Exercise Objective
+## 1. 🎯 Lab Objective
 
-Understand how Ethernet devices identify each other and how Ethernet switches forward traffic within a local network.
+This exercise explains how Ethernet devices identify each other and how Ethernet switches learn and forward traffic within a local network.
 
-After completing this exercise, the following concepts should be clear:
+The lab focuses on the relationship between the following concepts:
 
-- MAC address identification
-- ARP operation
-- ARP table entries
-- Layer 2 forwarding
-- MAC learning
-- Switch forwarding table
-- Broadcast traffic
-- Unicast traffic
-- Unknown unicast behaviour
+- MAC addresses
+- ARP
+- Layer 2 switching
+- broadcast and unicast traffic
 
 ---
 
-## Experiments
+## 2. 🔖 Learning Outcomes
 
-1. Experiment 2.1 - MAC Address Discovery
-2. Experiment 2.2 - ARP Communication
-3. Experiment 2.3 - Switch Learning Behaviour
-4. Experiment 2.4 - Broadcast vs Unicast Traffic
+After completing this exercise, the reader will be able to:
 
----
-
-# Experiment 2.1 - MAC Address Discovery
-
-## Objective
-
-Identify and analyse Ethernet MAC addresses of network interfaces.
+- identify the MAC address of an interface
+- explain how ARP resolves an IP address to a MAC address
+- describe how a switch learns MAC addresses
+- distinguish between broadcast and unicast traffic
+- explain why a switch forwards traffic selectively
 
 ---
 
-## Concepts Covered
+## 3. 📡 Equipment and Topology
 
-- MAC Address
-- Ethernet Interface
-- Layer 2 Addressing
-- Unicast Address
-- Vendor OUI
+### Hardware
 
----
+- Two PCs with Ethernet interfaces
+- One Ethernet switch
+- Appropriate Ethernet cables
 
-## Theory
-
-Every Ethernet interface is assigned a unique MAC address.
-
-Example:
-
-```text
-00:1A:2B:3C:4D:5E
-```
-
-A MAC address is:
-
-- 48 bits long
-- Represented using hexadecimal digits
-- Used for Layer 2 communication
-
-Unlike an IP address, a MAC address is used only inside a local Ethernet network.
-
----
-
-## Hardware Setup
+### Topology
 
 ```text
 PC 1 ---- Ethernet Switch ---- PC 2
 ```
 
+### IP Plan
+
+```text
+PC 1: 192.168.10.10 /24
+PC 2: 192.168.10.20 /24
+```
+
 ---
+
+## 4. Lab Instructions
+
+1. Use the same wired Ethernet links for all experiments in this exercise.
+2. Disable Wi-Fi to ensure traffic is only sent on the Ethernet interface.
+3. Start Wireshark before performing the ARP test.
+4. Record actual values observed on the lab system.
+
+---
+
+# 📌 Experiment 2.1 - MAC Address Discovery
+
+## Objective
+
+Identify and analyse the MAC addresses assigned to Ethernet interfaces.
+
+## Background
+
+Each Ethernet interface has a unique Layer 2 address called the MAC address. The MAC address is used inside the local Ethernet network to identify the sender and receiver.
+
+### Relevant Facts
+
+- MAC address length: 48 bits
+- format: hexadecimal
+- used for communication within the local Ethernet segment
+- different from an IP address
 
 ## Procedure
 
 ### Windows
-
-Execute:
 
 ```cmd
 getmac /v
@@ -89,214 +88,124 @@ or
 ipconfig /all
 ```
 
----
-
 ### Ubuntu/Linux
-
-Execute:
 
 ```bash
 ip link show
 ```
 
----
-
 ## Expected Observation
 
-Example:
+The output should show a unique MAC address for each network interface, for example:
 
 ```text
-Ethernet Adapter
-
-MAC Address:
 3C-52-82-12-34-56
 ```
 
----
-
-## Practical Activity
-
-Record the Ethernet MAC addresses.
+## Observation Table
 
 | Device | MAC Address |
-|----------|----------|
+|--------|-------------|
 | PC 1 | |
 | PC 2 | |
 
----
-
-## Key Learning
-
-- MAC addresses uniquely identify Ethernet interfaces.
-- MAC addressing is used at Layer 2.
-- MAC addresses are different from IP addresses.
-
----
-
 ## Review Questions
 
-1. What is the length of a MAC address?
-2. Why is MAC addressing required?
-3. What is the difference between MAC and IP addresses?
+1. What is the purpose of a MAC address?
+2. Why is a MAC address different from an IP address?
+3. What is the length of a MAC address?
 
 ---
 
-## Conclusion
-
-Ethernet interfaces were identified using their unique MAC addresses.
-
----
-
-# Experiment 2.2 - ARP Communication
+# 📌 Experiment 2.2 - ARP Communication
 
 ## Objective
 
 Observe how an IP address is resolved to a MAC address using ARP.
 
----
+## Background
 
-## Concepts Covered
+An Ethernet frame must contain a source and destination MAC address. A switch forwards frames using the destination MAC address and its learned MAC table; it does not inspect the IP address for forwarding decisions. When a host knows an IP address but not the MAC address, it uses ARP to discover the correct mapping.
 
-- ARP
-- ARP Request
-- ARP Reply
-- ARP Cache
-- IP-to-MAC Resolution
-
----
-
-## Theory
-
-Ethernet communication requires MAC addresses.
-
-When an application wants to communicate using IP:
+### ARP Flow
 
 ```text
 Application
-    ↓
-IPv4 Address
-    ↓
-ARP Resolution
-    ↓
-MAC Address
+   ↓
+IPv4 address
+   ↓
+ARP resolution
+   ↓
+MAC address
 ```
-
-ARP is used to discover the MAC address associated with an IP address.
-
----
-
-## Hardware Setup
-
-```text
-PC 1 ---- Ethernet Switch ---- PC 2
-```
-
-IP Configuration:
-
-```text
-PC 1 : 192.168.10.10
-
-PC 2 : 192.168.10.20
-```
-
----
 
 ## Procedure
 
-### Step 1
+### Step 1 - Clear the ARP cache
 
-Clear ARP cache.
-
-Windows:
+#### Windows
 
 ```cmd
 arp -d *
 ```
 
-Linux:
+#### Linux
 
 ```bash
 sudo ip neigh flush all
 ```
 
----
+### Step 2 - Start Wireshark
 
-### Step 2
+Capture all Ethernet traffic.
 
-Start Wireshark capture.
-
----
-
-### Step 3
-
-Execute:
+### Step 3 - Ping the other host
 
 ```bash
 ping 192.168.10.20
 ```
 
----
-
-### Step 4
-
-Apply Wireshark filter:
+### Step 4 - Apply an ARP filter
 
 ```text
 arp
 ```
 
----
-
 ## Expected Observation
 
-ARP Request:
+The key observations are as follows:
+
+- an ARP request is sent as a broadcast at Layer 2 to FF:FF:FF:FF:FF:FF
+- an ARP reply is sent from the destination host
+- the destination MAC address becomes known to the sender for subsequent unicast traffic
+
+Example:
 
 ```text
 Who has 192.168.10.20?
 Tell 192.168.10.10
 ```
 
-ARP Reply:
+and
 
 ```text
-192.168.10.20 is at
-XX:XX:XX:XX:XX:XX
+192.168.10.20 is at XX:XX:XX:XX:XX:XX
 ```
 
----
+## Observation Table
 
-## Practical Activity
-
-Record observations.
-
-| Parameter | Value |
-|------------|------------|
+| Field | Value |
+|-------|-------|
 | Source IP | |
 | Destination IP | |
 | Target MAC before ARP | |
 | MAC learned | |
 
----
-
-## Key Learning
-
-- ARP converts IP addresses into MAC addresses.
-- ARP Request uses broadcast communication.
-- ARP Reply uses unicast communication.
-
----
-
 ## Review Questions
 
 1. Why is ARP necessary?
-2. Is ARP a Layer 2 or Layer 3 protocol?
+2. Is ARP considered a Layer 2 protocol or a Layer 2/3 boundary protocol?
 3. What happens if ARP fails?
-
----
-
-## Conclusion
-
-ARP communication was successfully captured and analysed.
 
 ---
 
@@ -304,127 +213,28 @@ ARP communication was successfully captured and analysed.
 
 ## Objective
 
-Observe how Ethernet switches learn MAC addresses and forward traffic.
+Observe how an Ethernet switch learns MAC addresses and maintains a forwarding table.
 
----
+## Background
 
-## Concepts Covered
-
-- Switch Learning
-- MAC Address Table
-- Flooding
-- Unicast Forwarding
-
----
-
-## Theory
-
-An Ethernet switch builds a MAC Address Table automatically.
-
-Example:
-
-```text
-MAC Address          Port
-
-00:11:22:33:44:55   Port 1
-
-AA:BB:CC:DD:EE:FF   Port 2
-```
-
-Initially the table is empty.
-
-Unknown traffic is flooded.
-
-Once learned, traffic is forwarded only to the correct port.
-
----
-
-## Hardware Setup
-
-```text
-PC 1 ----+
-          |
-          |---- Ethernet Switch
-          |
-PC 2 ----+
-```
-
----
+When a frame arrives at a switch, the switch inspects the source MAC address and records which port it was learned on. This is called MAC learning.
 
 ## Procedure
 
-### Step 1
-
-Power cycle the switch or clear the MAC table if supported.
-
-### Step 2
-
-Start packet exchange using:
-
-```bash
-ping 192.168.10.20
-```
-
-### Step 3
-
-Observe switch MAC table.
-
-Managed switch:
-
-```text
-MAC Address Table
-```
-
----
+1. Start a packet capture on the switch-connected interface if supported.
+2. Generate traffic from PC 1 to PC 2.
+3. Observe the switch behavior for the first and subsequent frames.
+4. Repeat the test with traffic in both directions.
 
 ## Expected Observation
 
-Initially:
-
-```text
-Empty Table
-```
-
-After communication:
-
-```text
-PC1_MAC -> Port 1
-
-PC2_MAC -> Port 2
-```
-
----
-
-## Practical Activity
-
-Record entries.
-
-| MAC Address | Learned Port |
-|-------------|-------------|
-| | |
-| | |
-
----
-
-## Key Learning
-
-- Switches learn MAC addresses automatically.
-- Traffic flooding occurs when destination MAC is unknown.
-- Learned MAC addresses improve forwarding efficiency.
-
----
+The switch learns the MAC addresses of connected devices and forwards frames based on the destination MAC address.
 
 ## Review Questions
 
-1. What is MAC learning?
-2. Why does flooding occur?
-3. What happens when a switch receives an unknown frame?
-
----
-
-## Conclusion
-
-Switch MAC learning behaviour was successfully observed.
+1. What does a switch learn from incoming frames?
+2. Why does a switch not forward every frame everywhere?
+3. What is a forwarding table?
 
 ---
 
@@ -432,188 +242,41 @@ Switch MAC learning behaviour was successfully observed.
 
 ## Objective
 
-Differentiate between broadcast traffic and unicast traffic.
+Differentiate between broadcast and unicast communication in Ethernet.
 
----
+## Background
 
-## Concepts Covered
-
-- Broadcast
-- Unicast
-- Broadcast MAC Address
-- Ethernet Forwarding
-- Layer 2 Communication
-
----
-
-## Theory
-
-Broadcast traffic is sent to all devices.
-
-Broadcast MAC:
-
-```text
-FF:FF:FF:FF:FF:FF
-```
-
-Examples:
-
-- ARP Request
-- DHCP Discover
-
-Unicast traffic is sent to a specific destination.
-
-Example:
-
-```text
-PC 1 → PC 2
-```
-
----
-
-## Hardware Setup
-
-```text
-PC 1
-   \
-    \
-     Ethernet Switch
-    /
-   /
-PC 2
-```
-
----
+- Unicast traffic is sent to one specific receiver.
+- Broadcast traffic is sent to all devices on the local network.
+- ARP requests are typically broadcast messages.
 
 ## Procedure
 
-### Step 1
-
-Start Wireshark capture.
-
-### Step 2
-
-Clear ARP cache.
-
-Windows:
-
-```cmd
-arp -d *
-```
-
-Linux:
-
-```bash
-sudo ip neigh flush all
-```
-
-### Step 3
-
-Execute:
-
-```bash
-ping 192.168.10.20
-```
-
-### Step 4
-
-Observe ARP packets.
-
-### Step 5
-
-Observe ICMP packets.
-
----
+1. Use Wireshark to inspect traffic while pinging another host.
+2. Identify broadcast frames and unicast frames.
+3. Note the difference in destination MAC addresses.
 
 ## Expected Observation
 
-ARP Request:
+- an ARP request uses a broadcast destination MAC address
+- a normal ping reply uses a unicast destination MAC address
 
-```text
-Destination MAC
+## Observation Table
 
-FF:FF:FF:FF:FF:FF
-```
-
-Broadcast.
-
----
-
-ICMP Packet:
-
-```text
-Destination MAC
-
-XX:XX:XX:XX:XX:XX
-```
-
-Unicast.
-
----
-
-## Practical Activity
-
-Record observations.
-
-| Traffic Type | Destination MAC |
-|--------------|----------------|
-| ARP Request | |
-| ARP Reply | |
-| ICMP Request | |
-| ICMP Reply | |
-
----
-
-## Key Learning
-
-- Broadcast reaches all devices.
-- Unicast reaches only the intended device.
-- ARP Request is broadcast.
-- ARP Reply is unicast.
-- Most regular Ethernet communication is unicast.
-
----
+| Traffic Type | Destination MAC Address | Purpose |
+|--------------|-------------------------|---------|
+| Broadcast | | |
+| Unicast | | |
 
 ## Review Questions
 
-1. What is a broadcast MAC address?
-2. Why is ARP Request broadcast?
-3. Why is ARP Reply unicast?
-4. Which traffic type generates more network load?
+1. Why are ARP requests broadcast?
+2. What is the difference between broadcast and unicast traffic?
+3. Why is broadcast use limited in Ethernet networks?
 
 ---
 
 ## Conclusion
 
-Broadcast and unicast Ethernet traffic were captured and analysed successfully.
+This exercise shows that Ethernet switching depends on MAC learning and address resolution. ARP allows devices to find each other, while switching ensures traffic is forwarded efficiently rather than blindly to every port.
 
----
-
-# Exercise Summary
-
-The following communication sequence should now be understood:
-
-```text
-Application
-      ↓
-IP Address
-      ↓
-ARP Request (Broadcast)
-      ↓
-ARP Reply (Unicast)
-      ↓
-MAC Address Learned
-      ↓
-Switch Learns MAC Address
-      ↓
-Frame Forwarding
-      ↓
-Unicast Communication
-```
-
-The concepts learned in this exercise form the foundation for:
-
-- Ethernet switching
-- VLANs
-- Network segmentation
-- Automotive Ethernet communication
