@@ -1,206 +1,112 @@
-# Exercise 4 - VLANs and Network Segmentation
+# 📘 Exercise 4 - VLANs and Network Segmentation
 
-## Exercise Objective
+## 1. 🎯 Lab Objective
 
-Understand how Ethernet networks can be logically segmented using Virtual LANs (VLANs).
-
-Observe how VLAN tagging separates traffic, prevents communication between unrelated devices, and enables traffic prioritisation.
-
-After completing this exercise, the following concepts should be clear:
-
-- VLAN
-- VLAN Identifier (VID)
-- Tagged Frames
-- Untagged Frames
-- Access Ports
-- Trunk Ports
-- Inter-VLAN Isolation
-- IEEE 802.1Q
-- Priority Code Point (PCP)
-- Quality of Service (QoS)
+This exercise introduces VLANs and logical segmentation in Ethernet networks. It explains how a single physical switch can carry multiple logical networks and how VLAN tagging separates traffic.
 
 ---
 
-## Experiments
+## 2. 🔖 Learning Outcomes
 
-1. Experiment 4.1 - VLAN Creation
-2. Experiment 4.2 - Inter-VLAN Isolation
-3. Experiment 4.3 - VLAN Tag Observation
-4. Experiment 4.4 - QoS Priority using PCP
+After completing this exercise, the reader will be able to:
 
----
-
-# Experiment 4.1 - VLAN Creation
-
-## Objective
-
-Create multiple VLANs on a managed Ethernet switch and verify logical network separation.
+- explain what a VLAN is and why it is used
+- assign ports to different VLANs
+- verify inter-VLAN isolation
+- interpret IEEE 802.1Q VLAN tags in captured frames
+- understand how PCP supports QoS in Ethernet traffic
 
 ---
 
-## Concepts Covered
+## 3. Required Hardware
 
-- VLAN
-- VLAN ID
-- Logical Segmentation
-- Access Port
+- Managed Ethernet switch
+- PC 1, PC 2, PC 3
+- Ethernet cables
+- Wireshark
 
----
-
-## Theory
-
-A VLAN allows multiple logical networks to coexist on a single physical Ethernet switch.
-
-Without VLANs:
-
-```text
-All ports belong to one network.
-```
-
-With VLANs:
-
-```text
-VLAN 10 → Network A
-
-VLAN 20 → Network B
-```
-
-Traffic remains separated even though the same switch infrastructure is used.
-
----
-
-## Hardware Required
-
-- Managed Ethernet Switch
-- PC 1
-- PC 2
-- PC 3
-
----
-
-## Hardware Setup
+### Topology
 
 ```text
 PC 1 ---- Port 1 (VLAN 10)
-
 PC 2 ---- Port 2 (VLAN 20)
-
 PC 3 ---- Port 3 (VLAN 10)
 ```
 
 ---
 
-## Switch Configuration
+## 4. Lab Instructions
 
-Configure:
+1. Use a managed switch that supports VLAN configuration.
+2. Confirm the devices are connected to the correct ports before testing.
+3. Use separate IP ranges for different VLANs.
+4. Save the final switch configuration if required by the instructor.
+
+---
+
+# 📌 Experiment 4.1 - VLAN Creation
+
+## Objective
+
+Create multiple VLANs on a managed Ethernet switch and confirm logical network separation.
+
+## Background
+
+A VLAN allows multiple logical networks to coexist on a single physical switch. This reduces broadcast domains and improves traffic control without requiring extra physical hardware.
+
+## Example Configuration
 
 ```text
-Port 1 → VLAN 10
-
-Port 2 → VLAN 20
-
-Port 3 → VLAN 10
+Port 1 -> VLAN 10
+Port 2 -> VLAN 20
+Port 3 -> VLAN 10
 ```
 
-All ports should operate as Access Ports.
-
----
-
-## IP Configuration
+## IP Plan
 
 ```text
-PC 1 : 192.168.10.10
-
-PC 2 : 192.168.20.10
-
-PC 3 : 192.168.10.20
+PC 1: 192.168.10.10 /24
+PC 2: 192.168.20.10 /24
+PC 3: 192.168.10.20 /24
 ```
 
----
+## Procedure
 
-## Verification
+1. Open the switch management interface.
+2. Create VLAN 10 and VLAN 20.
+3. Assign switch ports to the VLANs as required.
+4. Configure ports as access ports.
+5. Verify the configuration in the switch GUI or CLI.
 
-Verify VLAN assignment using the switch management interface.
-
----
-
-## Practical Activity
-
-Record VLAN assignments.
+## Observation Table
 
 | Device | Switch Port | VLAN |
-|----------|----------|----------|
+|--------|--------------|------|
 | PC 1 | | |
 | PC 2 | | |
 | PC 3 | | |
 
----
-
-## Key Learning
-
-- VLANs create logical networks.
-- Multiple VLANs can exist on the same switch.
-- Physical topology remains unchanged.
-
----
-
 ## Review Questions
 
 1. What is a VLAN?
-2. Why are VLANs used?
-3. Does a VLAN require separate switches?
+2. Why are VLANs used in Ethernet networks?
+3. Does a VLAN require separate physical switches?
 
 ---
 
-## Conclusion
-
-Multiple VLANs were successfully created on a single Ethernet switch.
-
----
-
-# Experiment 4.2 - Inter-VLAN Isolation
+# 📌 Experiment 4.2 - Inter-VLAN Isolation
 
 ## Objective
 
-Verify communication within a VLAN and observe communication failure between different VLANs.
+Verify that devices in the same VLAN can communicate while devices in different VLANs cannot communicate directly.
 
----
+## Background
 
-## Concepts Covered
-
-- VLAN Isolation
-- Broadcast Domain
-- Traffic Separation
-
----
-
-## Theory
-
-Devices belonging to the same VLAN can communicate directly.
-
-Devices belonging to different VLANs require:
-
-```text
-Router
-
-or
-
-Layer 3 Switch
-```
-
-to exchange traffic.
-
----
-
-## Hardware Setup
-
-Same as Experiment 4.1.
-
----
+Each VLAN behaves as an independent Layer 2 domain. Devices in the same VLAN can communicate directly at Layer 2, while communication between VLANs requires a router, Layer 3 switch, or other Layer 3 forwarding device.
 
 ## Procedure
 
-### Test 1
+### Test 1 - Same VLAN communication
 
 From PC 1:
 
@@ -208,15 +114,13 @@ From PC 1:
 ping 192.168.10.20
 ```
 
-Expected:
+Expected result:
 
 ```text
 Success
 ```
 
----
-
-### Test 2
+### Test 2 - Different VLAN communication
 
 From PC 1:
 
@@ -224,136 +128,64 @@ From PC 1:
 ping 192.168.20.10
 ```
 
-Expected:
+Expected result:
 
 ```text
 Timeout
 ```
 
----
-
 ## Expected Observation
 
-Communication allowed:
-
 ```text
-PC1 ↔ PC3
+PC 1 <-> PC 3: communication allowed
+PC 1 <-> PC 2: communication blocked
 ```
 
-Communication blocked:
-
-```text
-PC1 ↔ PC2
-```
-
----
-
-## Practical Activity
-
-Record observations.
+## Observation Table
 
 | Source | Destination | Result |
-|----------|----------|----------|
+|--------|-------------|--------|
 | PC 1 | PC 3 | |
 | PC 1 | PC 2 | |
 | PC 2 | PC 3 | |
 
----
-
-## Key Learning
-
-- VLANs isolate traffic.
-- Devices in different VLANs cannot communicate directly.
-- Each VLAN behaves like an independent Ethernet network.
-
----
-
 ## Review Questions
 
 1. Why can PC 1 communicate with PC 3?
-2. Why can PC 1 not communicate with PC 2?
+2. Why can PC 1 not communicate with PC 2 directly?
 3. What is required for communication between VLANs?
 
 ---
 
-## Conclusion
-
-Traffic isolation between VLANs was verified successfully.
-
----
-
-# Experiment 4.3 - VLAN Tag Observation
+# 📌 Experiment 4.3 - VLAN Tag Observation
 
 ## Objective
 
-Capture and analyse IEEE 802.1Q VLAN-tagged Ethernet frames.
+Capture and inspect IEEE 802.1Q VLAN-tagged Ethernet frames.
 
----
+## Background
 
-## Concepts Covered
+A VLAN tag is added to an Ethernet frame so that switches can identify which VLAN the frame belongs to. The tag is carried inside the Ethernet frame using IEEE 802.1Q.
 
-- IEEE 802.1Q
-- VLAN Tag
-- VLAN Identifier
-- Tagged Frames
+## Relevant Fields
 
----
+The VLAN tag contains the following fields:
 
-## Theory
-
-VLAN information is carried inside an Ethernet frame using the 802.1Q tag.
-
-Simplified structure:
-
-```text
-Destination MAC
-
-Source MAC
-
-802.1Q Tag
-
-EtherType
-
-Payload
-```
-
-The 802.1Q tag contains:
-
-```text
-PCP
-
-DEI
-
-VID
-```
-
----
-
-## Hardware Setup
-
-A trunk connection capable of carrying VLAN traffic is required.
-
----
+- PCP (Priority Code Point)
+- DEI
+- VID (VLAN ID)
 
 ## Procedure
 
-### Step 1
-
-Start Wireshark.
-
-### Step 2
-
-Generate traffic within VLAN 10.
-
-### Step 3
-
-Apply filter:
+1. Start Wireshark.
+2. Generate traffic in VLAN 10.
+3. Apply the filter:
 
 ```text
 vlan
 ```
 
----
+4. Inspect the packet details and note the VLAN ID and priority values.
 
 ## Expected Observation
 
@@ -361,106 +193,47 @@ Example:
 
 ```text
 802.1Q Virtual LAN
-
 Priority: 0
-
 VLAN ID: 10
 ```
 
----
-
-## Practical Activity
-
-Record observed values.
+## Observation Table
 
 | Parameter | Value |
-|------------|------------|
+|-----------|-------|
 | VLAN ID | |
 | EtherType | |
 | Frame Length | |
 | PCP Value | |
 
----
-
-## Key Learning
-
-- VLAN information is embedded inside Ethernet frames.
-- VLAN tags are added and removed by network devices.
-- VLAN IDs identify logical networks.
-
----
-
 ## Review Questions
 
 1. What is IEEE 802.1Q?
-2. What is a VLAN ID?
-3. What is a tagged frame?
+2. What does the VLAN ID represent?
+3. Why is a tagged frame different from an untagged frame?
 
 ---
 
-## Conclusion
-
-VLAN-tagged Ethernet frames were captured and analysed successfully.
-
----
-
-# Experiment 4.4 - QoS Priority using PCP
+# 📌 Experiment 4.4 - QoS Priority using PCP
 
 ## Objective
 
-Observe traffic prioritisation using the Priority Code Point (PCP) field of the VLAN tag.
+Observe how the Priority Code Point (PCP) field in the VLAN tag can be used for traffic prioritization.
 
----
+## Background
 
-## Concepts Covered
+PCP is a 3-bit field inside the 802.1Q VLAN tag and is used by QoS mechanisms. It allows switches to prioritize certain traffic classes such as real-time control or safety-critical communication.
 
-- QoS
-- PCP
-- Traffic Prioritisation
-- Traffic Classes
-
----
-
-## Theory
-
-IEEE 802.1Q contains:
+PCP priorities range from:
 
 ```text
-PCP
-Priority Code Point
+0 = lowest
+7 = highest
 ```
-
-PCP uses:
-
-```text
-3 Bits
-```
-
-providing:
-
-```text
-Priority 0 → Lowest
-
-Priority 7 → Highest
-```
-
-Higher-priority traffic can be forwarded before lower-priority traffic.
-
-This concept forms the foundation of Time Sensitive Networking (TSN).
-
----
-
-## Hardware Setup
-
-Managed switch supporting QoS.
-
----
 
 ## Procedure
 
-### Step 1
-
-Create two traffic streams.
+### Step 1 - Create two traffic streams
 
 Traffic A:
 
@@ -474,17 +247,9 @@ Traffic B:
 Priority 7
 ```
 
----
+### Step 2 - Generate traffic simultaneously
 
-### Step 2
-
-Generate traffic simultaneously.
-
----
-
-### Step 3
-
-Capture packets using Wireshark.
+### Step 3 - Capture packets with Wireshark
 
 Apply:
 
@@ -492,15 +257,11 @@ Apply:
 vlan
 ```
 
----
-
-### Step 4
-
-Inspect the PCP field.
-
----
+### Step 4 - Inspect PCP values
 
 ## Expected Observation
+
+Different Ethernet frames should show different PCP values depending on the traffic class.
 
 Example:
 
@@ -514,57 +275,32 @@ and
 Priority: 7
 ```
 
-for different traffic streams.
-
----
-
-## Practical Activity
-
-Record observations.
+## Observation Table
 
 | Traffic Stream | VLAN | PCP |
-|---------------|------|------|
+|----------------|------|-----|
 | Stream A | | |
 | Stream B | | |
 
----
-
-## Automotive Mapping
-
-Example vehicle traffic:
+## Example Automotive Priorities
 
 | Function | Suggested PCP |
-|------------|------------|
+|----------|----------------|
 | Brake Control | 7 |
 | Steering | 6 |
 | Camera Stream | 5 |
 | Diagnostics | 2 |
 | Software Update | 0 |
 
----
-
-## Key Learning
-
-- Not all Ethernet traffic requires equal priority.
-- PCP allows prioritisation inside Ethernet networks.
-- QoS improves handling of critical traffic.
-- PCP is the foundation for deterministic automotive Ethernet communication.
-
----
-
 ## Review Questions
 
 1. What is PCP?
-2. How many priority levels are available?
-3. Why is traffic prioritisation important?
-4. Which vehicle functions require higher priorities?
+2. How many priority levels are available in the VLAN tag?
+3. Why is QoS important in Ethernet networks?
 
 ---
 
 ## Conclusion
 
-QoS prioritisation using PCP was observed successfully.
+This exercise demonstrates that VLANs provide logical segmentation, while PCP enables QoS inside Ethernet traffic. Together, these features allow networks to be both secure and efficient in real-world deployments.
 
----
-
-# Exercise
