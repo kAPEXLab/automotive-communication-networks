@@ -1,104 +1,74 @@
-# Exercise 3 - Ethernet Performance
+# 📘 Exercise 3 - Ethernet Performance
 
-## Exercise Objective
+## 1. 🎯 Lab Objective
 
-Measure and analyse Ethernet network performance under different operating conditions.
-
-After completing this exercise, the following concepts should be clear:
-
-- Throughput
-- Link Speed
-- Bandwidth Utilization
-- Packet Loss
-- Latency
-- Duplex Modes
-- Network Congestion
-- Performance Troubleshooting
+This exercise introduces Ethernet performance testing and explains how throughput, packet loss, and physical-layer issues affect network communication quality.
 
 ---
 
-## Experiments
+## 2. 🔖 Learning Outcomes
 
-1. Experiment 3.1 - Throughput Measurement
-2. Experiment 3.2 - Packet Loss Study
-3. Experiment 3.3 - Duplex Mismatch Study
+After completing this exercise, the reader will be able to:
 
----
-
-# Experiment 3.1 - Throughput Measurement
-
-## Objective
-
-Measure the actual throughput achievable over an Ethernet network using iperf3.
+- define throughput and distinguish it from link speed
+- measure network performance using iperf3
+- identify packet loss and explain its causes
+- understand how duplex and cabling issues affect reliability
+- analyse network health using practical observations
 
 ---
 
-## Concepts Covered
+## 3. 📡 Equipment and Setup
 
-- Throughput
-- Bandwidth
-- Link Speed
-- Data Transfer Rate
-- TCP Communication
+### Hardware
 
----
+- Two PCs
+- Ethernet switch
+- Ethernet cables
 
-## Theory
+### Software
 
-Ethernet interfaces advertise a certain link speed.
+- iperf3
+- ping
+- Wireshark (optional for advanced analysis)
 
-Examples:
-
-```text
-100 Mbps
-
-1 Gbps
-
-10 Gbps
-```
-
-Actual application throughput is usually lower than the theoretical link speed because of:
-
-- Protocol overhead
-- Packet headers
-- Network stack processing
-- Device limitations
-
-Throughput measurement helps determine how much useful data can actually be transferred.
-
----
-
-## Hardware Setup
+### Topology
 
 ```text
 PC 1 ---------- Ethernet Switch ---------- PC 2
 ```
 
----
-
-## Software Required
+### IP Plan
 
 ```text
-iperf3
+PC 1: 192.168.10.10 /24
+PC 2: 192.168.10.20 /24
 ```
 
 ---
 
-## IP Configuration
+## 4. General Lab Instructions
 
-```text
-PC 1 : 192.168.10.10
-
-PC 2 : 192.168.10.20
-```
+1. Verify connectivity before starting performance tests.
+2. Record the actual measured values from the lab equipment.
+3. Keep the same Ethernet connection throughout the test.
+4. Avoid background traffic during throughput measurement when possible.
 
 ---
+
+# 📌 Experiment 3.1 - Throughput Measurement
+
+## Objective
+
+Measure the actual data transfer rate achievable over the Ethernet connection using iperf3.
+
+## Background
+
+The advertised Ethernet link speed is not always equal to the usable throughput. Actual data transfer is reduced by protocol overhead, processing delay, and device limitations.
 
 ## Procedure
 
-### Step 1
-
-Verify connectivity.
+### Step 1 - Verify connectivity
 
 From PC 1:
 
@@ -106,491 +76,170 @@ From PC 1:
 ping 192.168.10.20
 ```
 
----
-
-### Step 2
-
-Start iperf3 server on PC 2.
+### Step 2 - Start the iperf3 server on PC 2
 
 ```bash
 iperf3 -s
 ```
 
-Expected:
+Expected output includes:
 
 ```text
 Server listening on 5201
 ```
 
----
-
-### Step 3
-
-Start iperf3 client on PC 1.
+### Step 3 - Start the iperf3 client on PC 1
 
 ```bash
 iperf3 -c 192.168.10.20
 ```
 
----
+### Step 4 - Observe results
 
-### Step 4
+Record the values shown for:
 
-Observe throughput statistics.
-
----
+- transfer size
+- bandwidth
+- time duration
+- retransmissions (if shown)
 
 ## Expected Observation
+
+The bandwidth reported by iperf3 will usually be lower than the theoretical link speed because of real-world overhead.
 
 Example:
 
 ```text
 Transfer: 1.10 GBytes
-
 Bandwidth: 940 Mbits/sec
 ```
 
-Actual values depend on:
-
-- PC capability
-- Network adapters
-- Switch capability
-- Background traffic
-
----
-
-## Practical Activity
-
-Record observations.
+## Observation Table
 
 | Parameter | Observed Value |
-|------------|------------|
+|-----------|----------------|
 | Link Speed | |
 | Test Duration | |
 | Data Transferred | |
 | Average Throughput | |
-
----
-
-## Analysis
-
-Compare:
-
-```text
-Configured Link Speed
-
-vs
-
-Measured Throughput
-```
-
----
-
-## Key Learning
-
-- Throughput is the actual data transfer rate.
-- Throughput is usually lower than the advertised link speed.
-- Ethernet overhead reduces usable bandwidth.
-
----
+| Retransmissions | |
 
 ## Review Questions
 
 1. What is throughput?
-2. Why is throughput lower than link speed?
-3. What factors influence throughput?
+2. Why is throughput usually lower than the advertised link speed?
+3. What factors influence measured throughput?
 
 ---
 
-## Conclusion
-
-Ethernet throughput was measured successfully using iperf3.
-
----
-
-# Experiment 3.2 - Packet Loss Study
+# 📌 Experiment 3.2 - Packet Loss Study
 
 ## Objective
 
-Observe packet loss under different network conditions.
+Observe packet loss and understand how it affects communication quality.
 
----
+## Background
 
-## Concepts Covered
-
-- Packet Loss
-- Reliability
-- Retransmission
-- Connectivity Quality
-
----
-
-## Theory
-
-Packet loss occurs when transmitted packets fail to reach their destination.
-
-Packet loss may be caused by:
-
-- Network congestion
-- Faulty cables
-- Software overload
-- Duplex issues
-- Interface errors
-
-Reliable Ethernet communication requires minimal packet loss.
-
----
-
-## Hardware Setup
-
-```text
-PC 1 ---------- Ethernet Switch ---------- PC 2
-```
-
----
+Packet loss occurs when packets fail to reach their destination. Some common causes are congestion, faulty cabling, interface issues, and duplex mismatches.
 
 ## Procedure
 
-### Step 1
-
-Verify communication.
+### Step 1 - Check basic connectivity
 
 ```bash
 ping 192.168.10.20
 ```
 
----
+### Step 2 - Start continuous ping
 
-### Step 2
-
-Start continuous ping.
-
-Windows:
+#### Windows
 
 ```cmd
 ping -t 192.168.10.20
 ```
 
-Linux:
+#### Linux
 
 ```bash
 ping 192.168.10.20
 ```
 
----
+### Step 3 - Observe normal traffic
 
-### Step 3
+Notice the response times and whether any packets are lost.
 
-Observe normal communication.
+### Step 4 - Introduce a fault condition
 
----
-
-### Step 4
-
-Disconnect Ethernet cable for a few seconds.
-
-Reconnect the cable.
-
-Observe the ping output.
-
----
-
-### Step 5
-
-Record packet loss information.
-
----
+Disconnect a cable for a few seconds and reconnect it. Observe the Ping output during the interruption.
 
 ## Expected Observation
 
-During disconnection:
+The key observations are as follows:
 
-```text
-Request Timed Out
-```
+- successful replies under normal conditions
+- delayed or failed replies during interruption
+- packet loss when the link is unstable
 
-or
+## Observation Table
 
-```text
-Destination Host Unreachable
-```
-
-After reconnection:
-
-```text
-Reply from 192.168.10.20
-```
-
----
-
-## Practical Activity
-
-Record observations.
-
-| Parameter | Value |
-|------------|------------|
-| Packets Sent | |
-| Packets Received | |
-| Packets Lost | |
-| Packet Loss % | |
-
----
-
-## Analysis
-
-Observe:
-
-- Communication before failure
-- Communication during failure
-- Communication after recovery
-
----
-
-## Key Learning
-
-- Packet loss indicates missing data.
-- Physical cable issues can cause packet loss.
-- Ethernet communication automatically recovers after link restoration.
-
----
+| Condition | Packets Sent | Packets Lost | Observations |
+|-----------|--------------|--------------|--------------|
+| Normal | | | |
+| Cable disconnected briefly | | | |
+| After reconnection | | | |
 
 ## Review Questions
 
 1. What is packet loss?
-2. How can packet loss affect applications?
-3. What causes packet loss?
+2. What are common causes of packet loss?
+3. Why is packet loss more serious than a small delay?
 
 ---
 
-## Conclusion
-
-Packet loss behaviour was analysed successfully.
-
----
-
-# Experiment 3.3 - Duplex Mismatch Study
+# 📌 Experiment 3.3 - Duplex and Link Quality Study
 
 ## Objective
 
-Study the impact of duplex mismatch on Ethernet performance.
+Understand how duplex mismatch and cabling issues affect Ethernet performance.
 
----
+## Background
 
-## Concepts Covered
-
-- Half Duplex
-- Full Duplex
-- Auto Negotiation
-- Ethernet Errors
-- Performance Degradation
-
----
-
-## Theory
-
-Ethernet communication may operate in:
-
-```text
-Half Duplex
-```
-
-or
-
-```text
-Full Duplex
-```
-
-Modern switched Ethernet normally uses:
-
-```text
-Full Duplex
-```
-
-If one device operates in Half Duplex and the other operates in Full Duplex:
-
-```text
-Duplex Mismatch
-```
-
-This leads to:
-
-- Reduced throughput
-- Increased retransmissions
-- Network errors
-- Poor performance
-
----
-
-## Hardware Setup
-
-```text
-PC 1 ---------- Ethernet Switch ---------- PC 2
-```
-
----
+Ethernet interfaces can operate in full-duplex or half-duplex mode. If both ends do not agree on the setting, communication may degrade, causing errors and packet loss.
 
 ## Procedure
 
-### Step 1
+1. Check the current interface status using the OS and, if available, ethtool.
+2. Confirm link speed and duplex mode.
+3. Compare the observed settings with the expected configuration.
+4. Note whether any errors or collisions are reported.
 
-Verify current link settings.
-
-#### Windows
-
-```powershell
-Get-NetAdapter
-```
-
-#### Linux
+### Linux example
 
 ```bash
 sudo ethtool <interface>
 ```
 
----
+### Windows example
 
-### Step 2
-
-Record:
-
-```text
-Speed
-
-Duplex Mode
+```powershell
+Get-NetAdapter | Format-List Name, Status, LinkSpeed, FullDuplex
 ```
-
----
-
-### Step 3
-
-If the network adapter supports manual configuration:
-
-Configure:
-
-```text
-PC 1 : Full Duplex
-
-PC 2 : Half Duplex
-```
-
----
-
-### Step 4
-
-Run throughput test.
-
-```bash
-iperf3 -c 192.168.10.20
-```
-
----
-
-### Step 5
-
-Observe:
-
-- Throughput
-- Packet loss
-- Errors
-
----
-
-### Step 6
-
-Restore both interfaces to:
-
-```text
-Auto Negotiation
-```
-
-Repeat throughput measurement.
-
----
 
 ## Expected Observation
 
-Duplex mismatch generally causes:
+The expected observations are as follows:
 
-```text
-Lower throughput
-
-Higher errors
-
-Reduced efficiency
-```
-
----
-
-## Practical Activity
-
-Record observations.
-
-| Parameter | Full Duplex | Duplex Mismatch |
-|------------|------------|------------|
-| Throughput | | |
-| Packet Loss | | |
-| Observed Errors | | |
-
----
-
-## Analysis
-
-Compare:
-
-```text
-Normal Operation
-
-vs
-
-Duplex Mismatch
-```
-
----
-
-## Key Learning
-
-- Modern Ethernet relies on Full Duplex operation.
-- Duplex mismatch degrades network performance.
-- Auto Negotiation helps prevent configuration errors.
-
----
+- a healthy link reports correct speed and duplex
+- mismatch or instability may lead to errors or performance degradation
 
 ## Review Questions
 
-1. What is the difference between Half Duplex and Full Duplex?
-2. Why does duplex mismatch reduce throughput?
-3. Why is Auto Negotiation important?
+1. What is duplex mode?
+2. Why can a duplex mismatch cause packet loss?
+3. How does link quality affect overall network reliability?
 
 ---
 
 ## Conclusion
 
-The impact of duplex mismatch on Ethernet performance was analysed successfully.
-
----
-
-# Exercise Summary
-
-The following performance concepts should now be understood:
-
-```text
-Ethernet Link
-      ↓
-Bandwidth
-      ↓
-Throughput
-      ↓
-Packet Loss
-      ↓
-Duplex Configuration
-      ↓
-Network Performance
-```
-
-The concepts learned in this exercise form the foundation for:
-
-- Ethernet troubleshooting
-- Switch performance analysis
-- VLAN performance
-- Industrial Ethernet networks
-- Automotive Ethernet networks
+This exercise demonstrates that Ethernet performance depends on more than just the presence of a link. Throughput, packet loss, and error behavior are affected by hardware, configuration, and environmental factors. It shows how to measure and interpret basic performance indicators in a real Ethernet network.
