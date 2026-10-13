@@ -46,7 +46,7 @@
 
 * [CAN with STM32 and PCAN](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsCAN)
 * [CAN FD with PCAN](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsCAN-FD)
-
+* [Ethernet Fundamentals](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsEthernetFundamentals)
 ## 📌 Simulators
 
 #### Controller Area Network
