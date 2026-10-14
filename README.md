@@ -60,5 +60,5 @@
 * [Exploring SocketCAN](https://github.com/kAPEXLab/automotive-communication-networks/blob/main/assignments/SocketCAN1.md)
 * [MiniProject with SocketCAN](https://github.com/kAPEXLab/automotive-communication-networks/blob/main/assignments/SocketCAN2.md)
 * [Understanding DBC](https://github.com/kAPEXLab/automotive-communication-networks/blob/main/assignments/SocketCAN_DBC.md)
-* [Network Fundamentals and Traffic Analysis](https://github.com/kAPEXLab/automotive-communication-networks/blob/main/assignments/Ethernet1.md)
+* [Network Fundamentals and Traffic Analysis](assignments/Ethernet1.md)
 * [Socket-Based Ethernet Communication](https://github.com/kAPEXLab/automotive-communication-networks/blob/main/assignments/Ethernet2.md)
