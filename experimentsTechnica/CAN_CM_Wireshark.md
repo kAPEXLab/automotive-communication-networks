@@ -30,7 +30,7 @@ Each bench has one CAN bus at **500 kbit/s**, with three nodes and one or two CA
 
 Only the three ECUs drive the bus; the CAN Combos copy frames to the PC through the EES. Combo B (shown as dashed in the diagram) is needed only for TC-06.
 
-![Bench wiring diagram showing three ECUs on the CAN bus, CAN Combo capture points, an enhanced Ethernet switch, and the lab PC](https://github.com/kAPEXLab/automotive-communication-networks/blob/9b25f658b99b048d39b11eabba0186cf52024d65/images/bench-wiring.png)
+
 ![Bench wiring diagram showing three ECUs on the CAN bus, CAN Combo capture points, an enhanced Ethernet switch, and the lab PC](../images/bench-wiring.png)
 ## CAN ID Map
 
