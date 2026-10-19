@@ -1,10 +1,9 @@
 # CAN Combo Hands-on Labs: Single LM35 Node
 
-**Student worksheet**
+
 
 Bench: Arduino Mega + MCP2515 with LM35 → CAN Combo (Device ID 0x42, channel_78) → EES → lab PC with Wireshark and ANDi.
 
-Name: ____________________   Roll no.: ________   Bench: ____   Date: ____________
 
 ## Task 1: One frame in Wireshark and ANDi
 
