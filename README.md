@@ -48,6 +48,7 @@
 * [CAN FD with PCAN](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsCAN-FD)
 * [Ethernet Fundamentals](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsEthernetFundamentals)
 * [CAN Combo Capture and Analysis with Wireshark](experimentsTechnica/CAN_CM_Wireshark.md)
+* [CAN Combo Hands-on Labs: Single LM35 Node](experimentsTechnica/CAN Combo Hands-on Labs Single LM35 Node.md)
 
 
 ## 📌 Simulators
