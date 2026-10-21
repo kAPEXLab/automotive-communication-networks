@@ -49,6 +49,7 @@
 * [Ethernet Fundamentals](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsEthernetFundamentals)
 * [CAN Combo Capture and Analysis with Wireshark](experimentsTechnica/CAN_CM_Wireshark.md)
 * [CAN Combo Hands-on Labs: Single LM35 Node](https://github.com/kAPEXLab/automotive-communication-networks/blob/b52bea8581468513939d513c1d00da675eace4a3/experimentsTechnica/CAN%20Combo%20Hands-on%20Labs%20Single%20LM35%20Node.md)
+* [LIN with STM 32](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsLIN)
 
 
 ## 📌 Simulators
