@@ -55,15 +55,17 @@
 ## 📌 Guidelines for Experimentation
 
 #### ▶️ CAN with STM32 and PCAN
+
 1. [Basic Configuration and Framework](experimentsCAN/can_01_Basic_Configuration_and_Framework.md)
 2. [Arbitration and Bus Load](experimentsCAN/can_02_Arbitration_Bus_Load.md)
 3. [Hardware Filtering](experimentsCAN/can_03_Hardware_Filtering.md)
 4. [Fault Injection](experimentsCAN/can_04_Fault_Injection.md)
 5. [Signal Encoding](experimentsCAN/can_05_Signal_Encoding.md)
-6. [Alive Counte](experimentsCAN/can_06_Alive_Counter.md)
+6. [Alive Counter](experimentsCAN/can_06_Alive_Counter.md)
 7. [Diagnostics and DTC](experimentsCAN/can_07_Diagnostics_and_DTC.md)
 
 #### ▶️ CAN FD with PCAN
+
 1. [Basic CAN FD Communication](experimentsCAN-FD/canfd_01_basic_canfd_communication.md)
 2. [Payload and DLC](experimentsCAN-FD/canfd_02_payload_and_dlc.md)
 3. [BRS and Busload](experimentsCAN-FD/canfd_03_brs_and_busload.md)
