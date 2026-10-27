@@ -40,11 +40,30 @@
 * Presentation - [Ethernet 4 VLAN](https://kapexlab.github.io/automotive-communication-networks/ppts/Ethernet-Fundamentals_4_VLANs.html)
 * PDF - [Ethernet Basics](https://www.mouser.com/pdfdocs/Ethernet_Basics_rev2_en.pdf?srsltid=AU7gw4VGtPhIFN2c4qGNGWloNwZRyQX9tMbXN-Bx9S6QPW8gBd7qxxqy)
 * Blog - [Introduction to Ethernet](https://networklessons.com/switching/introduction-to-ethernet)
-  
+
+#### Module 5: Automotive Ethernet & Applications
+* Presentation - [Automotive Ethernet](https://kapexlab.github.io/automotive-communication-networks/ppts/Automotive_Ethernet.html)
+* Presentation - [SOME/IP](https://kapexlab.github.io/automotive-communication-networks/ppts/SOMEIP.html)
+* Blog - [Automotive Ethernet: The In-Vehicle Networking of the Future](https://www.keysight.com/blogs/en/tech/educ/2024/automotive-ethernet)
+* Blog - [Automotive Ethernet- A Complete Guide for Engineers in India](https://gsasindia.com/blog/what-is-automotive-ethernet-complete-guide-india)
+* Original Documentation - [SOME/IP](https://some-ip.com/)
+* Video - [Automotive Ethernet Fundamentals](https://youtu.be/ltGMOZxMpoA?si=LhgN_Xf_SynWpmQw)
+* Video - [SOME/IP Overview](https://youtu.be/iDtseeMiHxg?si=X8pEhPC43CuqM8pi)
+
+---
 
 ## 📌 Guidelines for Experimentation
 
-* [CAN with STM32 and PCAN](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsCAN)
+#### CAN with STM32 and PCAN
+
+1 [Basic Configuration and Framework](experimentsCAN/can_01_Basic Configuration and Framework.md)
+2 [Arbitration and Bus Load](experimentsCAN/can_02_Arbitration_Bus Load.md)
+3 [Hardware Filtering](experimentsCAN/can_03_Hardware Filtering.md)
+4 [Fault Injection](experimentsCAN/can_04_Fault Injection.md)
+5 [Signal Encoding](experimentsCAN/can_05_Signal Encoding.md)
+6 [Alive Counte](experimentsCAN/can_06_Alive Counter.md)
+7 [Diagnostics and DTC](experimentsCAN/can_07_Diagnostics and DTC.md)
+
 * [CAN FD with PCAN](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsCAN-FD)
 * [Ethernet Fundamentals](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsEthernetFundamentals)
 * [CAN Combo Capture and Analysis with Wireshark](experimentsTechnica/CAN_CM_Wireshark.md)
