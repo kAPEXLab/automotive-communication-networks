@@ -66,6 +66,14 @@
 
 * [CAN FD with PCAN](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsCAN-FD)
 * [Ethernet Fundamentals](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsEthernetFundamentals)
+
+
+
+[1 Ethernet Fundamentals](experimentsEthernetFundamentals/eth_01_ethernetfundamentals.md)
+[2 Switching and MAC Learning](experimentsEthernetFundamentals/eth_02_SwitchingandMACLearning.md)
+[3 Ethernet Performance](experimentsEthernetFundamentals/eth_03_EthernetPerformance.md)
+[4 VLANs and Network Segmentation](experimentsEthernetFundamentals/eth_04_VLANsandNetworkSegmentation.md)
+
 * [CAN Combo Capture and Analysis with Wireshark](experimentsTechnica/CAN_CM_Wireshark.md)
 * [CAN Combo Hands-on Labs: Single LM35 Node](https://github.com/kAPEXLab/automotive-communication-networks/blob/b52bea8581468513939d513c1d00da675eace4a3/experimentsTechnica/CAN%20Combo%20Hands-on%20Labs%20Single%20LM35%20Node.md)
 * [LIN with STM 32](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsLIN)
