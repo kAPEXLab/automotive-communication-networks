@@ -54,30 +54,48 @@
 
 ## 📌 Guidelines for Experimentation
 
-#### CAN with STM32 and PCAN
+#### ▶️ CAN with STM32 and PCAN
+1. [Basic Configuration and Framework](experimentsCAN/can_01_Basic_Configuration_and_Framework.md)
+2. [Arbitration and Bus Load](experimentsCAN/can_02_Arbitration_Bus_Load.md)
+3. [Hardware Filtering](experimentsCAN/can_03_Hardware_Filtering.md)
+4. [Fault Injection](experimentsCAN/can_04_Fault_Injection.md)
+5. [Signal Encoding](experimentsCAN/can_05_Signal_Encoding.md)
+6. [Alive Counte](experimentsCAN/can_06_Alive_Counter.md)
+7. [Diagnostics and DTC](experimentsCAN/can_07_Diagnostics_and_DTC.md)
 
-1 [Basic Configuration and Framework](experimentsCAN/can_01_Basic Configuration and Framework.md)
-2 [Arbitration and Bus Load](experimentsCAN/can_02_Arbitration_Bus Load.md)
-3 [Hardware Filtering](experimentsCAN/can_03_Hardware Filtering.md)
-4 [Fault Injection](experimentsCAN/can_04_Fault Injection.md)
-5 [Signal Encoding](experimentsCAN/can_05_Signal Encoding.md)
-6 [Alive Counte](experimentsCAN/can_06_Alive Counter.md)
-7 [Diagnostics and DTC](experimentsCAN/can_07_Diagnostics and DTC.md)
+#### ▶️ CAN FD with PCAN
+1. [Basic CAN FD Communication](experimentsCAN-FD/canfd_01_basic_canfd_communication.md)
+2. [Payload and DLC](experimentsCAN-FD/canfd_02_payload_and_dlc.md)
+3. [BRS and Busload](experimentsCAN-FD/canfd_03_brs_and_busload.md)
+4. [Timing Mismatch Error](experimentsCAN-FD/canfd_04_timing_mismatch_error.md)
+5. [Classical CAN vs CAN FD](experimentsCAN-FD/canfd_05_classical_can_vs_canfd.md)
+6. [Diagnostic Style Transfer](experimentsCAN-FD/canfd_06_diagnostic_style_transfer.md)
+7. [ACK Error Demo](experimentsCAN-FD/canfd_07_ack_error_demo.md)
+8. [Physical Layer Faults](experimentsCAN-FD/canfd_08_physical_layer_faults.md)
 
-* [CAN FD with PCAN](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsCAN-FD)
-* [Ethernet Fundamentals](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsEthernetFundamentals)
+#### ▶️ CAN Automotive Applications and Analysis with Technica Capture Modules
+1. [CAN Combo Capture and Analysis with Wireshark](experimentsTechnica/CAN_CM_Wireshark.md)
+2. [CAN Combo Hands-on Labs: Single LM35 Node](experimentsTechnica/CAN_Combo_Hands-on_Labs_Single_LM35_Node.md)
 
+#### ▶️ LIN with STM32 and PCAN/PLIN
+* [REFERENCE_LIN.c](experimentsLIN/REFERENCE_LIN.c)
+* [REFERENCE_LIN.h](experimentsLIN/REFERENCE_LIN.h)
+* [REFERENCE_main.c](experimentsLIN/REFERENCE_main.c)
 
+1. [Basic Framework](experimentsLIN/LIN_01_Basic_Framework_Documentation.md)
+2. [Scheduling and Real Life Features](experimentsLIN/LIN_02_Scheduling_and_Real_Life_Features.md)
+3. [Frame Subscription and Identifiers](experimentsLIN/LIN_03_Frame_Subscription_and_Identifiers.md)
+4. [Fault Injection and Troubleshooting](experimentsLIN/LIN_04_Fault_Injection_and_Troubleshooting.md)
+5. [Signal Encoding Exercises](experimentsLIN/LIN_05_Signal_Encoding_Exercises.md)
+6. [Alive Counter and Frame Supervision](experimentsLIN/LIN_06_Alive_Counter_and_Frame_Supervision.md)
 
-[1 Ethernet Fundamentals](experimentsEthernetFundamentals/eth_01_ethernetfundamentals.md)
-[2 Switching and MAC Learning](experimentsEthernetFundamentals/eth_02_SwitchingandMACLearning.md)
-[3 Ethernet Performance](experimentsEthernetFundamentals/eth_03_EthernetPerformance.md)
-[4 VLANs and Network Segmentation](experimentsEthernetFundamentals/eth_04_VLANsandNetworkSegmentation.md)
+#### ▶️ Ethernet Fundamentals
+1. [Ethernet Fundamentals](experimentsEthernetFundamentals/eth_01_ethernetfundamentals.md)
+2. [Switching and MAC Learning](experimentsEthernetFundamentals/eth_02_SwitchingandMACLearning.md)
+3. [Ethernet Performance](experimentsEthernetFundamentals/eth_03_EthernetPerformance.md)
+4. [VLANs and Network Segmentation](experimentsEthernetFundamentals/eth_04_VLANsandNetworkSegmentation.md)
 
-* [CAN Combo Capture and Analysis with Wireshark](experimentsTechnica/CAN_CM_Wireshark.md)
-* [CAN Combo Hands-on Labs: Single LM35 Node](https://github.com/kAPEXLab/automotive-communication-networks/blob/b52bea8581468513939d513c1d00da675eace4a3/experimentsTechnica/CAN%20Combo%20Hands-on%20Labs%20Single%20LM35%20Node.md)
-* [LIN with STM 32](https://github.com/kAPEXLab/automotive-communication-networks/tree/main/experimentsLIN)
-
+---
 
 ## 📌 Simulators
 
