@@ -97,6 +97,8 @@
 3. [Ethernet Performance](experimentsEthernetFundamentals/eth_03_EthernetPerformance.md)
 4. [VLANs and Network Segmentation](experimentsEthernetFundamentals/eth_04_VLANsandNetworkSegmentation.md)
 
+#### ▶️ Automotive Ethernet: CAN-SOME/IP
+1. [CAN - SOME/IP](experimentsTechnica/Automotive_CAN-to-SOMEIP.md)
 ---
 
 ## 📌 Simulators
