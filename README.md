@@ -98,7 +98,8 @@
 4. [VLANs and Network Segmentation](experimentsEthernetFundamentals/eth_04_VLANsandNetworkSegmentation.md)
 
 #### ▶️ Automotive Ethernet: CAN-SOME/IP
-1. [CAN - SOME/IP](experimentsTechnica/Automotive_CAN-to-SOMEIP.md)
+1. [SOME/IP Basics](experimentsTechnica/SOMEIP_Basics.md)
+2. [CAN - SOME/IP Communication](experimentsTechnica/Automotive_CAN-to-SOMEIP.md)
 ---
 
 ## 📌 Simulators
