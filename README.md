@@ -117,3 +117,6 @@
 * [Understanding DBC](assignments/SocketCAN_DBC.md)
 * [Network Fundamentals and Traffic Analysis](assignments/Ethernet1.md)
 * [Socket-Based Ethernet Communication](assignments/Ethernet2.md)
+* [Introduction to SOME/IP Using Python and someipy](assignments/SOMEIP1.md)
+* [Multi-ECU Service-Oriented Communication Using SOME/IP](assignments/SOMEIP2.md)
+
